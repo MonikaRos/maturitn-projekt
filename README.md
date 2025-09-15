@@ -1,1 +1,1 @@
-# maturitn-projekt
+# maturitný projekt
