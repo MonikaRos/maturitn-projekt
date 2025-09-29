@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import InteractiveMap from './InteractiveMap';
 
 function MapPage({ books }) {
   const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   // Zoskupenie kníh podľa krajiny
   const booksByCountry = books.reduce((acc, book) => {
@@ -12,6 +14,17 @@ function MapPage({ books }) {
     return acc;
   }, {});
 
+  // Funkcia pri kliknutí na knihu na mape
+  const handleMapBookClick = (book) => {
+    setSelectedBook(book);
+    setSelectedCountry(book.country);
+  };
+
+  // Filtrovanie kníh podľa vybranej krajiny
+  const displayedCountries = selectedCountry 
+    ? { [selectedCountry]: booksByCountry[selectedCountry] }
+    : booksByCountry;
+
   return (
     <div className="map-page">
       <div className="page-header">
@@ -20,20 +33,34 @@ function MapPage({ books }) {
       </div>
 
       <div className="map-content">
-        {/* Tu bude neskôr skutočná mapa - zatiaľ placeholder */}
-        <div className="map-placeholder">
-          <div className="map-info">
-            <h3>🌍 Interaktívna mapa</h3>
-            <p>Tu bude zobrazená skutočná mapa s označenými knihami</p>
-            <p className="small-text">Zatiaľ zobrazujeme knihy podľa krajín nižšie</p>
+        {/* Skutočná interaktívna mapa */}
+        <InteractiveMap 
+          books={books} 
+          onBookClick={handleMapBookClick}
+        />
+        
+        {/* Informácia o vybranej knihe/krajine */}
+        {selectedBook && (
+          <div className="selected-info">
+            <button 
+              onClick={() => {
+                setSelectedBook(null);
+                setSelectedCountry(null);
+              }}
+              className="clear-selection"
+            >
+              ✕ Zrušiť výber
+            </button>
+            <h3>Vybratá kniha: {selectedBook.title}</h3>
+            <p>Zobrazujú sa knihy z krajiny: <strong>{selectedBook.country}</strong></p>
           </div>
-        </div>
+        )}
 
         {/* Zoznam krajín a kníh */}
         <div className="countries-section">
           <h3>📚 Knihy podľa krajín</h3>
           <div className="countries-grid">
-            {Object.entries(booksByCountry).map(([country, countryBooks]) => (
+            {Object.entries(displayedCountries).map(([country, countryBooks]) => (
               <div key={country} className="country-card">
                 <h4 className="country-name">🏳️ {country}</h4>
                 <p className="books-count">{countryBooks.length} {countryBooks.length === 1 ? 'kniha' : 'kníh'}</p>

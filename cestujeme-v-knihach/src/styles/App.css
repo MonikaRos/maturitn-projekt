@@ -1,6 +1,4 @@
-/* src/styles/App.css */
 
-/* Základné reset a nastavenia */
 * {
   margin: 0;
   padding: 0;
@@ -154,6 +152,108 @@ body {
   margin-bottom: 2rem;
 }
 
+/* === INTERACTIVE MAP === */
+.interactive-map-container {
+  margin-bottom: 2rem;
+}
+
+.map-legend {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.map-legend h4 {
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+  font-size: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.legend-marker {
+  font-size: 1.2rem;
+}
+
+.legend-stats {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #e2e8f0;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+/* Štýly pre popup na mape */
+.map-popup {
+  min-width: 200px;
+}
+
+.map-popup h3 {
+  margin-bottom: 0.5rem;
+  color: #1a202c;
+  font-size: 1.1rem;
+}
+
+.map-popup p {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.popup-description {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+  line-height: 1.3;
+}
+
+.selected-info {
+  background: #edf2f7;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.selected-info h3 {
+  color: #2d3748;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.selected-info p {
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.clear-selection {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.clear-selection:hover {
+  background: #c53030;
+}
+
 .map-info h3 {
   color: #4c51bf;
   margin-bottom: 1rem;
@@ -191,13 +291,13 @@ body {
 }
 
 .country-name {
-  color: #cf98f0;
+  color: #4c51bf;
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
 }
 
 .books-count {
-  color: #cf98f0;
+  color: #6b7280;
   margin-bottom: 1rem;
   font-weight: 500;
 }
