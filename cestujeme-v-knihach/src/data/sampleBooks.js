@@ -17,9 +17,9 @@ export const sampleBooks = [
     title: "Pán prsteňov: Spoločenstvo Prsteňa",
     author: "J.R.R. Tolkien",
     country: "Nový Zéland", 
-    city: "Matamata", // kde sa natáčal film (Hobitín)
+    city: "Matamata", //tu sa točil Pán Prsteňov
     coordinates: [-37.8833, 175.7833],
-    description: "Epická fantasy sága v prekrásnych nových zélandských krajinách",
+    description: "Epická fantasy sága v prekrásnych novo-zélandských krajinách",
     genre: "Fantasy", 
     year: 1954,
     image: "https://via.placeholder.com/200x300?text=LOTR"
