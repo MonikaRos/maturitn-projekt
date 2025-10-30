@@ -308,6 +308,13 @@ body {
   gap: 0.8rem;
 }
 
+/* Books showcase v profile */
+.books-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
 .book-item {
   background: white;
   border: 1px solid #e5e7eb;
@@ -371,9 +378,204 @@ body {
   margin-bottom: 1rem;
 }
 
+.login-prompt p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
 .login-prompt .login-button {
   font-size: 1.1rem;
   padding: 0.8rem 2rem;
+}
+
+/* === LOADING SCREEN === */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === MODAL (Prihlasovací formulár) === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+.modal-content h2 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.modal-subtitle {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* === AUTH FORM === */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  color: #374151;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  padding: 0.8rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4c51bf;
+  box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.1);
+}
+
+.form-group input:disabled {
+  background: #f9fafb;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.submit-button {
+  background: #4c51bf;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #434190;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 81, 191, 0.3);
+}
+
+.submit-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* === TOGGLE MODE === */
+.toggle-mode {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.toggle-mode p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #4c51bf;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.toggle-button:hover {
+  color: #434190;
 }
 
 /* === SEARCH PAGE === */
@@ -501,11 +703,22 @@ body {
   overflow: hidden;
   transition: all 0.2s;
   background: white;
+  cursor: pointer;
 }
 
 .book-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.book-card.book-read {
+  border-color: #48bb78;
+  background: #f0fff4;
+}
+
+.book-card-header {
+  display: flex;
+  flex-direction: column;
 }
 
 .book-image {
@@ -546,6 +759,58 @@ body {
   font-size: 0.9rem;
   line-height: 1.4;
   margin-top: 0.8rem;
+}
+
+/* Tlačidlo prečítané */
+.read-toggle-button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.read-toggle-button.unread {
+  background: #4c51bf;
+  color: white;
+}
+
+.read-toggle-button.unread:hover {
+  background: #434190;
+}
+
+.read-toggle-button.read {
+  background: #48bb78;
+  color: white;
+}
+
+.read-toggle-button.read:hover {
+  background: #38a169;
+}
+
+.read-toggle-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Rozbalený detail */
+.book-card-expanded {
+  padding: 1rem 1.2rem 1.2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.read-badge {
+  background: #c6f6d5;
+  border: 1px solid #9ae6b4;
+  color: #22543d;
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .no-results {

@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
 
-function ProfilePage({ user, books }) {
+import React from 'react';
+import BookCard from './BookCard';
+
+function ProfilePage({ user, books, onBookStatusChange }) {
+  // Bezpečná kontrola - ak user.readBooks neexistuje, použije prázdne pole
+  const userReadBooks = user.readBooks || [];
+  
   // Rozdelenie kníh na prečítané a neprečítané
-  const readBooks = books.filter(book => user.readBooks.includes(book.id));
-  const unreadBooks = books.filter(book => !user.readBooks.includes(book.id));
+  const readBooks = books.filter(book => userReadBooks.includes(book.id));
+  const unreadBooks = books.filter(book => !userReadBooks.includes(book.id));
 
   // Štatistiky
   const totalCountries = [...new Set(readBooks.map(book => book.country))].length;
   const totalCities = [...new Set(readBooks.map(book => book.city))].length;
   const favoriteGenres = getFavoriteGenres(readBooks);
 
-  // State pre zobrazenie detailov knihy
-  const [selectedBook, setSelectedBook] = useState(null);
-
   return (
     <div className="profile-page">
       <div className="page-header">
         <h2>👤 Môj literárny profil</h2>
-        <p>Vitajte späť, {user.name}!</p>
+        <p>Vitajte späť, {user.displayName || user.email}!</p>
       </div>
 
       {/* Štatistiky používateľa */}
@@ -52,22 +54,13 @@ function ProfilePage({ user, books }) {
           {readBooks.length > 0 ? (
             <div className="books-showcase">
               {readBooks.map(book => (
-                <div key={book.id} className="read-book-card">
-                  <div className="book-cover">
-                    <img src={book.image} alt={book.title} />
-                  </div>
-                  <div className="book-details">
-                    <h4>{book.title}</h4>
-                    <p className="author">{book.author}</p>
-                    <div className="book-location">
-                      <span className="flag">🌍</span>
-                      <span>{book.city}, {book.country}</span>
-                    </div>
-                    <div className="completion-badge">
-                      ✓ Prečítané
-                    </div>
-                  </div>
-                </div>
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  user={user}
+                  isRead={true}
+                  onStatusChange={onBookStatusChange}
+                />
               ))}
             </div>
           ) : (
@@ -114,32 +107,13 @@ function ProfilePage({ user, books }) {
           {unreadBooks.length > 0 ? (
             <div className="wishlist-grid">
               {unreadBooks.map(book => (
-                <div key={book.id} className="wishlist-book">
-                  <div className="book-info">
-                    <h4>{book.title}</h4>
-                    <p className="author">{book.author}</p>
-                    <div className="destination">
-                      <span>📍 {book.city}, {book.country}</span>
-                    </div>
-                    <p className="genre">🏷️ {book.genre}</p>
-                  </div>
-                  
-                  <div className="book-actions">
-                    <button 
-                      className="details-button"
-                      onClick={() => setSelectedBook(selectedBook?.id === book.id ? null : book)}
-                    >
-                      {selectedBook?.id === book.id ? 'Skryť' : 'Detaily'}
-                    </button>
-                  </div>
-                  
-                  {selectedBook?.id === book.id && (
-                    <div className="book-expanded">
-                      <p className="description">{book.description}</p>
-                      <p><strong>Rok vydania:</strong> {book.year}</p>
-                    </div>
-                  )}
-                </div>
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  user={user}
+                  isRead={false}
+                  onStatusChange={onBookStatusChange}
+                />
               ))}
             </div>
           ) : (
@@ -179,7 +153,7 @@ function getFavoriteGenres(readBooks) {
   
   return Object.entries(genreCounts)
     .map(([genre, count]) => ({ genre, count }))
-    .sort((a, b) => b.count - a.count); // zoradené podľa počtu kníh
+    .sort((a, b) => b.count - a.count);
 }
 
 export default ProfilePage;

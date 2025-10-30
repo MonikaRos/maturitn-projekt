@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import InteractiveMap from './InteractiveMap';
+import BookCard from './BookCard';
 
-function MapPage({ books }) {
+function MapPage({ books, user, onBookStatusChange }) {
   const [selectedBook, setSelectedBook] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
 
@@ -67,23 +69,13 @@ function MapPage({ books }) {
                 
                 <div className="books-list">
                   {countryBooks.map(book => (
-                    <div 
-                      key={book.id} 
-                      className={`book-item ${selectedBook?.id === book.id ? 'selected' : ''}`}
-                      onClick={() => setSelectedBook(selectedBook?.id === book.id ? null : book)}
-                    >
-                      <h5>{book.title}</h5>
-                      <p className="author">{book.author}</p>
-                      <p className="location">📍 {book.city}</p>
-                      
-                      {selectedBook?.id === book.id && (
-                        <div className="book-details">
-                          <p><strong>Rok vydania:</strong> {book.year}</p>
-                          <p><strong>Žáner:</strong> {book.genre}</p>
-                          <p><strong>Popis:</strong> {book.description}</p>
-                        </div>
-                      )}
-                    </div>
+                    <BookCard
+                      key={book.id}
+                      book={book}
+                      user={user}
+                      isRead={user?.readBooks?.includes(book.id)}
+                      onStatusChange={onBookStatusChange}
+                    />
                   ))}
                 </div>
               </div>

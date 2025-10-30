@@ -29,7 +29,7 @@ function MapController({ center }) {
   
   useEffect(() => {
     if (center) {
-      map.setView(center, 8); // zoom level 8
+      map.setView(center, 4); // zoom level 
     }
   }, [center, map]);
   

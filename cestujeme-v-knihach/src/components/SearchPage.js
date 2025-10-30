@@ -1,17 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
+import BookCard from './BookCard';
 
-function SearchPage({ books }) {
+function SearchPage({ books, user, onBookStatusChange }) {
   // Stavy pre vyhľadávanie
-  const [searchTerm, setSearchTerm] = useState(''); // čo používateľ píše do vyhľadávania
-  const [filteredBooks, setFilteredBooks] = useState(books); // vyfiltrované knihy
-  const [filterBy, setFilterBy] = useState('all'); // podľa čoho filtrovať (všetko, názov, autor, krajina)
-  const [selectedGenre, setSelectedGenre] = useState('all'); // filter podľa žánru
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredBooks, setFilteredBooks] = useState(books);
+  const [filterBy, setFilterBy] = useState('all');
+  const [selectedGenre, setSelectedGenre] = useState('all');
 
   // Získanie jedinečných žánrov zo všetkých kníh
   const genres = [...new Set(books.map(book => book.genre))];
 
-  // Funkcia na filtrovanie kníh - spustí sa vždy keď sa zmení vyhľadávaný text alebo filter
+  // Funkcia na filtrovanie kníh
   useEffect(() => {
     let filtered = books;
 
@@ -45,9 +46,8 @@ function SearchPage({ books }) {
     }
 
     setFilteredBooks(filtered);
-  }, [searchTerm, filterBy, selectedGenre, books]); // spustí sa pri zmene týchto hodnôt
+  }, [searchTerm, filterBy, selectedGenre, books]);
 
-  // Funkcia na vyčistenie vyhľadávania
   const clearSearch = () => {
     setSearchTerm('');
     setFilterBy('all');
@@ -63,7 +63,6 @@ function SearchPage({ books }) {
 
       {/* Vyhľadávacie nástroje */}
       <div className="search-tools">
-        {/* Hlavné vyhľadávacie pole */}
         <div className="search-input-container">
           <input
             type="text"
@@ -79,9 +78,7 @@ function SearchPage({ books }) {
           )}
         </div>
 
-        {/* Filtre */}
         <div className="filters">
-          {/* Filter podľa kategórie */}
           <div className="filter-group">
             <label>Hľadať v:</label>
             <select 
@@ -96,7 +93,6 @@ function SearchPage({ books }) {
             </select>
           </div>
 
-          {/* Filter podľa žánru */}
           <div className="filter-group">
             <label>Žáner:</label>
             <select 
@@ -111,7 +107,6 @@ function SearchPage({ books }) {
             </select>
           </div>
 
-          {/* Tlačidlo na vyčistenie */}
           <button onClick={clearSearch} className="clear-all-button">
             Vyčistiť všetko
           </button>
@@ -128,7 +123,6 @@ function SearchPage({ books }) {
             }
           </h3>
           
-          {/* Zobrazenie aktívnych filtrov */}
           {(searchTerm || selectedGenre !== 'all') && (
             <div className="active-filters">
               {searchTerm && (
@@ -145,24 +139,17 @@ function SearchPage({ books }) {
           )}
         </div>
 
-        {/* Zoznam výsledkov */}
+        {/* Zoznam výsledkov - POUŽÍVA BookCard! */}
         {filteredBooks.length > 0 ? (
           <div className="books-grid">
             {filteredBooks.map(book => (
-              <div key={book.id} className="book-card">
-                <div className="book-image">
-                  <img src={book.image} alt={book.title} />
-                </div>
-                
-                <div className="book-info">
-                  <h4 className="book-title">{book.title}</h4>
-                  <p className="book-author">📖 {book.author}</p>
-                  <p className="book-year">📅 {book.year}</p>
-                  <p className="book-location">📍 {book.city}, {book.country}</p>
-                  <p className="book-genre">🏷️ {book.genre}</p>
-                  <p className="book-description">{book.description}</p>
-                </div>
-              </div>
+              <BookCard
+                key={book.id}
+                book={book}
+                user={user}
+                isRead={user?.readBooks?.includes(book.id)}
+                onStatusChange={onBookStatusChange}
+              />
             ))}
           </div>
         ) : (
