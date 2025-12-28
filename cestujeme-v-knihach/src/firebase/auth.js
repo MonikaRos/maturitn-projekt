@@ -1,4 +1,4 @@
-
+// src/firebase/auth.js
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -51,8 +51,10 @@ export const loginUser = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Načítanie dát z Firestore
+    // Načítanie dát z Firestore PRED vrátením
     const userData = await getUserData(user.uid);
+    
+    console.log('✅ Prihlásenie úspešné, načítané dáta:', userData);
     
     return {
       success: true,
@@ -60,7 +62,8 @@ export const loginUser = async (email, password) => {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
-        readBooks: userData.success ? (userData.data.readBooks || []) : []
+        readBooks: userData.success ? (userData.data.readBooks || []) : [],
+        isAdmin: userData.success ? (userData.data.isAdmin || false) : false // DÔLEŽITÉ!
       }
     };
   } catch (error) {
@@ -102,7 +105,8 @@ export const onAuthChange = (callback) => {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || 'Používateľ',
-        readBooks: userData.success ? (userData.data.readBooks || []) : []
+        readBooks: userData.success ? (userData.data.readBooks || []) : [],
+        isAdmin: userData.success ? (userData.data.isAdmin || false) : false // Pridané: je admin?
       });
     } else {
       console.log('🚪 Používateľ odhlásený');

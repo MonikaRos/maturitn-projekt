@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 // Fix pre ikony markerov v Leaflet (React má s tým problém)
-
+// Toto je technické riešenie - nemusíš to úplne chápať, len to skopíruj
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -29,7 +29,7 @@ function MapController({ center }) {
   
   useEffect(() => {
     if (center) {
-      map.setView(center, 4); // zoom level 
+      map.setView(center, 8); // zoom level 8
     }
   }, [center, map]);
   
@@ -100,7 +100,7 @@ function InteractiveMap({ books, onBookClick }) {
           <span>Kliknutím na červený marker zobrazíte detail knihy</span>
         </div>
         <div className="legend-stats">
-          <strong>{books.length}</strong> kníh v <strong>{[...new Set(books.map(b => b.country))].length}</strong> krajinách
+          <strong>{books.length}</strong> kníh na <strong>{[...new Set(books.map(b => b.country))].length}</strong> miestach
         </div>
       </div>
     </div>

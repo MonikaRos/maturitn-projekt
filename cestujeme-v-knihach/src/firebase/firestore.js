@@ -1,11 +1,14 @@
-
+// src/firebase/firestore.js
 import { 
   doc, 
   setDoc, 
   getDoc, 
   updateDoc,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
+  collection,
+  getDocs,
+  deleteDoc
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -49,9 +52,10 @@ export const createUserProfile = async (userId, userData) => {
     await setDoc(userDocRef, {
       ...userData,
       readBooks: [],
+      isAdmin: false, // Nový používateľ nie je admin
       createdAt: new Date(),
       updatedAt: new Date()
-    }, { merge: true }); // merge: true znamená, že ak dokument existuje, len sa aktualizuje
+    }, { merge: true });
     
     return { success: true };
   } catch (error) {
@@ -66,35 +70,35 @@ export const createUserProfile = async (userId, userData) => {
 // Pridanie knihy medzi prečítané
 export const markBookAsRead = async (userId, bookId) => {
   try {
+    console.log('📝 Označujem knihu ako prečítanú:', { userId, bookId });
     const userDocRef = doc(db, 'users', userId);
     
-    // arrayUnion pridá hodnotu do array, ale len ak tam ešte nie je
-    await updateDoc(userDocRef, {
-      readBooks: arrayUnion(bookId),
-      updatedAt: new Date()
-    });
+    // Najprv skontrolujeme, či dokument existuje
+    const userDoc = await getDoc(userDocRef);
     
-    return { 
-      success: true,
-      message: 'Kniha bola označená ako prečítaná'
-    };
-  } catch (error) {
-    console.error("Chyba pri označovaní knihy:", error);
-    
-    // Ak používateľ ešte nemá dokument, vytvoríme ho
-    if (error.code === 'not-found') {
-      const userDocRef = doc(db, 'users', userId);
+    if (!userDoc.exists()) {
+      // Ak dokument neexistuje, vytvoríme ho
+      console.log('🆕 Vytváram nový dokument používateľa');
       await setDoc(userDocRef, {
         readBooks: [bookId],
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      return { 
-        success: true,
-        message: 'Kniha bola označená ako prečítaná'
-      };
+    } else {
+      // Ak existuje, aktualizujeme ho
+      await updateDoc(userDocRef, {
+        readBooks: arrayUnion(bookId),
+        updatedAt: new Date()
+      });
     }
     
+    console.log('✅ Kniha úspešne označená');
+    return { 
+      success: true,
+      message: 'Kniha bola označená ako prečítaná'
+    };
+  } catch (error) {
+    console.error("❌ Chyba pri označovaní knihy:", error);
     return {
       success: false,
       error: error.message
@@ -158,5 +162,148 @@ export const toggleBookReadStatus = async (userId, bookId, isCurrentlyRead) => {
     return await unmarkBookAsRead(userId, bookId);
   } else {
     return await markBookAsRead(userId, bookId);
+  }
+};
+
+// ==================== ADMIN FUNKCIE ====================
+
+// Pridanie novej knihy (len admin)
+export const addBook = async (bookData) => {
+  try {
+    console.log('📚 Pridávam novú knihu:', bookData);
+    
+    // Získame všetky knihy aby sme našli najvyššie ID
+    const booksCollection = collection(db, 'books');
+    const booksSnapshot = await getDocs(booksCollection);
+    
+    // Nájdeme najvyššie ID
+    let maxId = 0;
+    booksSnapshot.forEach(doc => {
+      const book = doc.data();
+      if (book.id > maxId) {
+        maxId = book.id;
+      }
+    });
+    
+    const newId = maxId + 1;
+    
+    // Vytvoríme nový dokument s vygenerovaným ID
+    const bookDocRef = doc(db, 'books', `book_${newId}`);
+    await setDoc(bookDocRef, {
+      ...bookData,
+      id: newId,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+    
+    console.log('✅ Kniha úspešne pridaná s ID:', newId);
+    return {
+      success: true,
+      bookId: newId,
+      message: 'Kniha bola úspešne pridaná'
+    };
+  } catch (error) {
+    console.error('❌ Chyba pri pridávaní knihy:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+// Aktualizácia existujúcej knihy (len admin)
+export const updateBook = async (bookId, bookData) => {
+  try {
+    console.log('✏️ Aktualizujem knihu:', bookId);
+    
+    const bookDocRef = doc(db, 'books', `book_${bookId}`);
+    await updateDoc(bookDocRef, {
+      ...bookData,
+      updatedAt: new Date()
+    });
+    
+    console.log('✅ Kniha úspešne aktualizovaná');
+    return {
+      success: true,
+      message: 'Kniha bola úspešne aktualizovaná'
+    };
+  } catch (error) {
+    console.error('❌ Chyba pri aktualizácii knihy:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+// Zmazanie knihy (len admin)
+export const deleteBook = async (bookId) => {
+  try {
+    console.log('🗑️ Mažem knihu:', bookId);
+    
+    const bookDocRef = doc(db, 'books', `book_${bookId}`);
+    await deleteDoc(bookDocRef);
+    
+    console.log('✅ Kniha úspešne zmazaná');
+    return {
+      success: true,
+      message: 'Kniha bola úspešne zmazaná'
+    };
+  } catch (error) {
+    console.error('❌ Chyba pri mazaní knihy:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+// Získanie všetkých kníh z Firestore
+export const getAllBooks = async () => {
+  try {
+    console.log('📚 Načítavam všetky knihy z Firestore');
+    
+    const booksCollection = collection(db, 'books');
+    const booksSnapshot = await getDocs(booksCollection);
+    
+    const books = [];
+    booksSnapshot.forEach(doc => {
+      books.push(doc.data());
+    });
+    
+    console.log(`✅ Načítaných ${books.length} kníh`);
+    return {
+      success: true,
+      books: books
+    };
+  } catch (error) {
+    console.error('❌ Chyba pri načítaní kníh:', error);
+    return {
+      success: false,
+      books: [],
+      error: error.message
+    };
+  }
+};
+
+// Migrácia testovacích kníh do Firestore (spustí sa len raz)
+export const migrateSampleBooks = async (sampleBooks) => {
+  try {
+    console.log('🔄 Migrujem testovacie knihy do Firestore...');
+    
+    for (const book of sampleBooks) {
+      const bookDocRef = doc(db, 'books', `book_${book.id}`);
+      await setDoc(bookDocRef, {
+        ...book,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+    
+    console.log('✅ Migrácia dokončená!');
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Chyba pri migrácii:', error);
+    return { success: false, error: error.message };
   }
 };

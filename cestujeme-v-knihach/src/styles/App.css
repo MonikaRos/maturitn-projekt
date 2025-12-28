@@ -1,4 +1,6 @@
+/* src/styles/App.css */
 
+/* Základné reset a nastavenia */
 * {
   margin: 0;
   padding: 0;
@@ -192,6 +194,163 @@ body {
   font-size: 0.9rem;
 }
 
+/* === MARKER CLUSTERING === */
+.marker-cluster {
+  background: #4c51bf;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(76, 81, 191, 0.4);
+  border: 3px solid white;
+  animation: pulse 2s infinite;
+}
+
+.marker-cluster-inner {
+  background: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-cluster-inner span {
+  color: #4c51bf;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.custom-cluster-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* === POPUP STYLES === */
+.custom-popup .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+}
+
+.map-popup-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.map-popup-header h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.1rem;
+}
+
+.books-count {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.map-popup-books {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.popup-book-item {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+  transition: background 0.2s;
+}
+
+.popup-book-item:hover {
+  background: #f9fafb;
+}
+
+.popup-book-item:last-child {
+  border-bottom: none;
+}
+
+.popup-book-cover {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.popup-book-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.popup-book-info h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.popup-author,
+.popup-year,
+.popup-genre {
+  margin: 0.2rem 0;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.popup-description {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.8rem;
+  color: #4b5563;
+  line-height: 1.3;
+}
+
+/* Legenda - cluster demo */
+.legend-marker-cluster {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #4c51bf;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-right: 0.5rem;
+  box-shadow: 0 2px 6px rgba(76, 81, 191, 0.3);
+}
+
+.cluster-demo {
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.legend-marker-single {
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+
 /* Štýly pre popup na mape */
 .map-popup {
   min-width: 200px;
@@ -306,13 +465,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-}
-
-/* Books showcase v profile */
-.books-showcase {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
 }
 
 .book-item {
@@ -576,6 +728,566 @@ body {
 
 .toggle-button:hover {
   color: #434190;
+}
+
+/* === ADMIN PAGE === */
+.admin-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+  font-size: 2.5rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.admin-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.admin-access-denied {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.admin-access-denied h2 {
+  color: #e53e3e;
+  margin-bottom: 1rem;
+}
+
+.admin-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-message.success {
+  background: #c6f6d5;
+  border: 1px solid #9ae6b4;
+  color: #22543d;
+}
+
+.admin-message.error {
+  background: #fed7d7;
+  border: 1px solid #fc8181;
+  color: #742a2a;
+}
+
+.admin-message button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.admin-message button:hover {
+  opacity: 1;
+}
+
+.admin-add-button {
+  background: #4c51bf;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 2rem;
+}
+
+.admin-add-button:hover {
+  background: #434190;
+  transform: translateY(-2px);
+}
+
+.admin-form-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.admin-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-form-header h2 {
+  color: #1a202c;
+  margin: 0;
+}
+
+.admin-cancel-button {
+  background: #e53e3e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-cancel-button:hover {
+  background: #c53030;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.admin-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-form label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.admin-form input,
+.admin-form textarea {
+  padding: 0.8rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+  outline: none;
+  border-color: #4c51bf;
+  box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.1);
+}
+
+.admin-submit-button {
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-submit-button:hover {
+  background: #38a169;
+  transform: translateY(-2px);
+}
+
+.admin-submit-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-books-list {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.admin-books-list h2 {
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+}
+
+.admin-loading,
+.admin-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.admin-books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-book-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.admin-book-card:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+
+.admin-book-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.admin-book-info {
+  padding: 1rem;
+}
+
+.admin-book-info h3 {
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.admin-book-info p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.admin-book-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f9fafb;
+}
+
+.admin-book-actions button {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+.admin-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white !important;
+}
+
+.admin-button.active {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.coordinates-info {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.coordinates-info.loading {
+  background: #e0e7ff;
+  border: 1px solid #a5b4fc;
+  color: #3730a3;
+}
+
+.coordinates-info.success {
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+}
+
+.coordinates-info.warning {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  color: #92400e;
+}
+
+.location-name {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+/* === OPENLIBRARY API SEARCH === */
+.book-search-trigger {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f0f9ff;
+  border: 2px dashed #3b82f6;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.search-api-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.search-api-button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.helper-text {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.book-search-container {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.search-header h3 {
+  color: #1f2937;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.search-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-filters .filter-group {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.search-filters .filter-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.filter-select {
+  padding: 0.6rem;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.genre-select {
+  padding: 0.8rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.genre-select:focus {
+  outline: none;
+  border-color: #4c51bf;
+  box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.1);
+}
+
+.close-search {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.close-search:hover {
+  background: #dc2626;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.api-search-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.api-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.search-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-button:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.search-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.search-results {
+  margin-top: 1rem;
+}
+
+.results-count {
+  color: #4b5563;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.results-list {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.result-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.result-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.result-cover {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-info h4 {
+  color: #1f2937;
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+}
+
+.result-author {
+  color: #6b7280;
+  margin: 0 0 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.result-year {
+  color: #9ca3af;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.result-language {
+  color: #8b5cf6;
+  margin: 0.2rem 0 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.result-subjects {
+  color: #10b981;
+  margin: 0.2rem 0 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #d1fae5;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 0.3rem;
 }
 
 /* === SEARCH PAGE === */
