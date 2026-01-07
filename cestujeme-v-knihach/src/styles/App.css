@@ -1823,6 +1823,25 @@ body {
   margin-bottom: 1rem;
 }
 
+
+/* Styling pre marker clusters */
+.custom-marker-cluster {
+  border: none !important;
+  background: none !important;
+}
+
+.custom-book-marker {
+  border: none !important;
+  background: none !important;
+}
+
+/* Leaflet cluster group styling */
+.leaflet-marker-icon.custom-marker-cluster,
+.leaflet-marker-icon.custom-book-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .header-container {
@@ -1860,5 +1879,125 @@ body {
   .book-cover {
     width: 100%;
     height: 200px;
+  }
+}
+
+/* Pridaj tieto štýly do src/styles/App.css */
+
+/* === WISHLIST ŠTÝLY === */
+
+/* BookCard akcie (2 tlačidlá vedľa seba) */
+.book-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Wishlist tlačidlo */
+.wishlist-toggle-button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  border-radius: 0 0 0 0; /* Žiadne zaoblenie ak je spolu s read button */
+}
+
+.wishlist-toggle-button.not-in-wishlist {
+  background: #fbbf24;
+  color: #78350f;
+}
+
+.wishlist-toggle-button.not-in-wishlist:hover {
+  background: #f59e0b;
+}
+
+.wishlist-toggle-button.in-wishlist {
+  background: #fbbf24;
+  color: white;
+}
+
+.wishlist-toggle-button.in-wishlist:hover {
+  background: #d97706;
+}
+
+.wishlist-toggle-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Wishlist badge v rozbalenom detaile */
+.wishlist-badge {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  color: #92400e;
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Karta s wishlist - žltý zvýraznenie */
+.book-card.book-wishlist {
+  border-color: #fbbf24;
+  background: #fffbeb;
+}
+
+/* Tlačidlá v InteractiveMap sidebar */
+.wishlist-toggle-btn {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+  color: white;
+}
+
+.wishlist-toggle-btn.not-in-wishlist {
+  background-color: #fbbf24;
+  color: #78350f;
+}
+
+.wishlist-toggle-btn.in-wishlist {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.wishlist-toggle-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wishlist-toggle-btn:not(:disabled):hover {
+  opacity: 0.8;
+}
+
+/* Wishlist sekcia v profile */
+.wishlist-section {
+  margin-top: 2.5rem;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Responsive - mobilné zariadenia */
+@media (max-width: 768px) {
+  .book-card-actions {
+    flex-direction: column;
+  }
+  
+  .wishlist-grid {
+    grid-template-columns: 1fr;
   }
 }

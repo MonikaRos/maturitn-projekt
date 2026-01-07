@@ -6,9 +6,8 @@ import SearchPage from './components/SearchPage';
 import ProfilePage from './components/ProfilePage';
 import AdminPage from './components/AdminPage';
 import LoginForm from './components/LoginForm';
-import { sampleBooks } from './data/sampleBooks';
 import { onAuthChange, logoutUser } from './firebase/auth';
-import { getAllBooks, migrateSampleBooks } from './firebase/firestore';
+import { getAllBooks } from './firebase/firestore';
 import './styles/App.css';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Inicializácia aplikácie
     initializeApp();
     
     const unsubscribe = onAuthChange((currentUser) => {
@@ -30,35 +28,24 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  // Inicializácia - načítanie kníh
   const initializeApp = async () => {
-    // Načítaj knihy z Firestore
     const result = await getAllBooks();
     
     if (result.success && result.books.length > 0) {
-      // Máme knihy v Firestore
       console.log('✅ Načítané knihy z Firestore:', result.books.length);
       setBooks(result.books);
     } else {
-      // Žiadne knihy v Firestore - migruj testovacie
-      console.log('📦 Migrujem testovacie knihy do Firestore...');
-      await migrateSampleBooks(sampleBooks);
-      
-      // Načítaj ich znova
-      const newResult = await getAllBooks();
-      if (newResult.success) {
-        setBooks(newResult.books);
-      }
+      console.log('⚠️ Žiadne knihy v databáze');
+      setBooks([]);
     }
   };
 
-  // Funkcia na obnovenie kníh (po pridaní/úprave/zmazaní)
   const refreshBooks = useCallback(async () => {
     const result = await getAllBooks();
     if (result.success) {
       setBooks(result.books);
     }
-  }, []); // Prázdne dependencies - funkcia sa nikdy nezmení
+  }, []);
 
   const handleLoginClick = () => {
     setShowLoginForm(true);
@@ -95,6 +82,23 @@ function App() {
     });
   };
 
+  // NOVÁ FUNKCIA na aktualizáciu wishlistu
+  const handleWishlistChange = (bookId, newStatus) => {
+    setUser(prevUser => {
+      if (!prevUser) return prevUser;
+      
+      const currentWishlist = prevUser.wishlist || [];
+      const updatedWishlist = newStatus
+        ? [...currentWishlist, bookId]
+        : currentWishlist.filter(id => id !== bookId);
+      
+      return {
+        ...prevUser,
+        wishlist: updatedWishlist
+      };
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="loading-screen">
@@ -126,14 +130,16 @@ function App() {
           <MapPage 
             books={books} 
             user={user} 
-            onBookStatusChange={handleBookStatusChange} 
+            onBookStatusChange={handleBookStatusChange}
+            onWishlistChange={handleWishlistChange}
           />
         )}
         {currentPage === 'search' && (
           <SearchPage 
             books={books} 
             user={user} 
-            onBookStatusChange={handleBookStatusChange} 
+            onBookStatusChange={handleBookStatusChange}
+            onWishlistChange={handleWishlistChange}
           />
         )}
         {currentPage === 'admin' && (
@@ -146,7 +152,8 @@ function App() {
           <ProfilePage 
             user={user} 
             books={books} 
-            onBookStatusChange={handleBookStatusChange} 
+            onBookStatusChange={handleBookStatusChange}
+            onWishlistChange={handleWishlistChange}
           />
         )}
         {currentPage === 'profile' && !user && (

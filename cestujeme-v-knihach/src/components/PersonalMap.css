@@ -1,0 +1,137 @@
+/* src/components/PersonalMap.css */
+
+.personal-map-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.personal-map-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.personal-map-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1a202c;
+  font-size: 1.5rem;
+}
+
+.personal-map-header p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.personal-map-wrapper {
+  height: 500px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 2px solid #e5e7eb;
+}
+
+.personal-map-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.stat-icon {
+  font-size: 2rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 0.3rem;
+}
+
+/* Prázdny stav */
+.personal-map-empty {
+  background: #f7fafc;
+  border: 2px dashed #cbd5e0;
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.personal-map-empty .empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.personal-map-empty h3 {
+  color: #2d3748;
+  margin: 0 0 0.5rem 0;
+}
+
+.personal-map-empty p {
+  color: #718096;
+  margin: 0;
+}
+
+/* Popup styling */
+.personal-popup {
+  min-width: 200px;
+}
+
+.personal-popup h4 {
+  margin: 0 0 0.5rem 0;
+  color: #1a202c;
+  font-size: 1rem;
+}
+
+.popup-count {
+  margin: 0 0 0.8rem 0;
+  color: #48bb78;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.popup-books {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 0.8rem;
+}
+
+.popup-book {
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.popup-book strong {
+  color: #2d3748;
+}
+
+.popup-author {
+  color: #718096;
+}
+
+/* Markery */
+.personal-book-marker,
+.personal-marker-cluster {
+  border: none !important;
+  background: none !important;
+}

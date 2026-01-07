@@ -12,16 +12,13 @@ import { createUserProfile, getUserData } from './firestore';
 // Registrácia nového používateľa
 export const registerUser = async (email, password, displayName) => {
   try {
-    // Vytvorenie používateľa
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Aktualizácia mena používateľa
     await updateProfile(user, {
       displayName: displayName
     });
     
-    // Vytvorenie profilu v Firestore
     await createUserProfile(user.uid, {
       email: user.email,
       displayName: displayName
@@ -33,7 +30,8 @@ export const registerUser = async (email, password, displayName) => {
         uid: user.uid,
         email: user.email,
         displayName: displayName,
-        readBooks: []
+        readBooks: [],
+        wishlist: [] // PRIDANÉ
       }
     };
   } catch (error) {
@@ -51,7 +49,6 @@ export const loginUser = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Načítanie dát z Firestore PRED vrátením
     const userData = await getUserData(user.uid);
     
     console.log('✅ Prihlásenie úspešné, načítané dáta:', userData);
@@ -63,7 +60,8 @@ export const loginUser = async (email, password) => {
         email: user.email,
         displayName: user.displayName,
         readBooks: userData.success ? (userData.data.readBooks || []) : [],
-        isAdmin: userData.success ? (userData.data.isAdmin || false) : false // DÔLEŽITÉ!
+        wishlist: userData.success ? (userData.data.wishlist || []) : [], // PRIDANÉ
+        isAdmin: userData.success ? (userData.data.isAdmin || false) : false
       }
     };
   } catch (error) {
@@ -95,22 +93,20 @@ export const onAuthChange = (callback) => {
     if (user) {
       console.log('👤 Používateľ prihlásený:', user.email);
       
-      // Načítanie dát používateľa z Firestore
       const userData = await getUserData(user.uid);
       
       console.log('📊 Dáta používateľa:', userData);
       
-      // Používateľ je prihlásený
       callback({
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || 'Používateľ',
         readBooks: userData.success ? (userData.data.readBooks || []) : [],
-        isAdmin: userData.success ? (userData.data.isAdmin || false) : false // Pridané: je admin?
+        wishlist: userData.success ? (userData.data.wishlist || []) : [], // PRIDANÉ
+        isAdmin: userData.success ? (userData.data.isAdmin || false) : false
       });
     } else {
       console.log('🚪 Používateľ odhlásený');
-      // Používateľ nie je prihlásený
       callback(null);
     }
   });

@@ -1,18 +1,21 @@
-
+// src/components/ProfilePage.js
 import React from 'react';
 import BookCard from './BookCard';
+import PersonalMap from './PersonalMap';
 
-function ProfilePage({ user, books, onBookStatusChange }) {
-  // Bezpečná kontrola - ak user.readBooks neexistuje, použije prázdne pole
+function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
   const userReadBooks = user.readBooks || [];
+  const userWishlist = user.wishlist || [];
   
-  // Rozdelenie kníh na prečítané a neprečítané
+  // Prečítané knihy
   const readBooks = books.filter(book => userReadBooks.includes(book.id));
-  const unreadBooks = books.filter(book => !userReadBooks.includes(book.id));
+  
+  // Wishlist - knihy ktoré NIE SÚ prečítané, ale sú vo wishlist-e
+  const wishlistBooks = books.filter(book => 
+    userWishlist.includes(book.id) && !userReadBooks.includes(book.id)
+  );
 
-  // Štatistiky
   const totalCountries = [...new Set(readBooks.map(book => book.country))].length;
-  const totalCities = [...new Set(readBooks.map(book => book.city))].length;
   const favoriteGenres = getFavoriteGenres(readBooks);
 
   return (
@@ -22,29 +25,10 @@ function ProfilePage({ user, books, onBookStatusChange }) {
         <p>Vitajte späť, {user.displayName || user.email}!</p>
       </div>
 
-      {/* Štatistiky používateľa */}
-      <div className="user-stats">
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-number">{readBooks.length}</div>
-            <div className="stat-label">Prečítaných kníh</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-number">{totalCountries}</div>
-            <div className="stat-label">Navštívených krajín</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-number">{totalCities}</div>
-            <div className="stat-label">Objavených miest</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-number">{favoriteGenres.length}</div>
-            <div className="stat-label">Obľúbených žánrov</div>
-          </div>
-        </div>
-      </div>
-
       <div className="profile-content">
+        {/* OSOBNÁ MAPA so štatistikami */}
+        <PersonalMap readBooks={readBooks} />
+
         {/* Prečítané knihy */}
         <div className="reading-section">
           <h3 className="section-title">
@@ -59,7 +43,9 @@ function ProfilePage({ user, books, onBookStatusChange }) {
                   book={book}
                   user={user}
                   isRead={true}
+                  isInWishlist={userWishlist.includes(book.id)}
                   onStatusChange={onBookStatusChange}
+                  onWishlistChange={onWishlistChange}
                 />
               ))}
             </div>
@@ -71,14 +57,12 @@ function ProfilePage({ user, books, onBookStatusChange }) {
           )}
         </div>
 
-        {/* Mapa navštívených miest */}
+        {/* Krajiny ktoré ste navštívili */}
         <div className="travel-map-section">
-          <h3 className="section-title">🗺️ Vaša literárna mapa</h3>
+          <h3 className="section-title">🌍 Krajiny, ktoré ste navštívili</h3>
           
           <div className="map-container">
-            {/* Tu bude neskôr skutočná mapa - zatiaľ zoznam krajín */}
             <div className="countries-visited">
-              <h4>Krajiny, ktoré ste navštívili cez knihy:</h4>
               <div className="countries-list">
                 {[...new Set(readBooks.map(book => book.country))].map(country => {
                   const countryBooks = readBooks.filter(book => book.country === country);
@@ -98,28 +82,30 @@ function ProfilePage({ user, books, onBookStatusChange }) {
           </div>
         </div>
 
-        {/* Knihy na prečítanie / Wishlist */}
+        {/* WISHLIST - Knihy na prečítanie */}
         <div className="wishlist-section">
           <h3 className="section-title">
-            🎯 Budúce literárne dobrodružstvá ({unreadBooks.length})
+            ⭐ Môj wishlist - Chcem prečítať ({wishlistBooks.length})
           </h3>
           
-          {unreadBooks.length > 0 ? (
+          {wishlistBooks.length > 0 ? (
             <div className="wishlist-grid">
-              {unreadBooks.map(book => (
+              {wishlistBooks.map(book => (
                 <BookCard
                   key={book.id}
                   book={book}
                   user={user}
                   isRead={false}
+                  isInWishlist={true}
                   onStatusChange={onBookStatusChange}
+                  onWishlistChange={onWishlistChange}
                 />
               ))}
             </div>
           ) : (
             <div className="empty-state">
-              <div className="empty-icon">🎯</div>
-              <p>Prečítali ste všetky dostupné knihy! Gratulujeme! 🎉</p>
+              <div className="empty-icon">⭐</div>
+              <p>Váš wishlist je prázdny. Pridajte knihy, ktoré chcete prečítať!</p>
             </div>
           )}
         </div>
@@ -143,7 +129,6 @@ function ProfilePage({ user, books, onBookStatusChange }) {
   );
 }
 
-// Pomocná funkcia na získanie obľúbených žánrov
 function getFavoriteGenres(readBooks) {
   const genreCounts = {};
   

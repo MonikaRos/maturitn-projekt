@@ -1,8 +1,8 @@
-
+// src/components/SearchPage.js
 import React, { useState, useEffect } from 'react';
 import BookCard from './BookCard';
 
-function SearchPage({ books, user, onBookStatusChange }) {
+function SearchPage({ books, user, onBookStatusChange, onWishlistChange }) {
   // Stavy pre vyhľadávanie
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredBooks, setFilteredBooks] = useState(books);
@@ -148,7 +148,9 @@ function SearchPage({ books, user, onBookStatusChange }) {
                 book={book}
                 user={user}
                 isRead={user?.readBooks?.includes(book.id)}
+                isInWishlist={user?.wishlist?.includes(book.id)}
                 onStatusChange={onBookStatusChange}
+                onWishlistChange={onWishlistChange}
               />
             ))}
           </div>

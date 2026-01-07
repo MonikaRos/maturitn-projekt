@@ -52,7 +52,7 @@ export const createUserProfile = async (userId, userData) => {
     await setDoc(userDocRef, {
       ...userData,
       readBooks: [],
-      isAdmin: false, // Nový používateľ nie je admin
+      isAdmin: false,
       createdAt: new Date(),
       updatedAt: new Date()
     }, { merge: true });
@@ -73,11 +73,9 @@ export const markBookAsRead = async (userId, bookId) => {
     console.log('📝 Označujem knihu ako prečítanú:', { userId, bookId });
     const userDocRef = doc(db, 'users', userId);
     
-    // Najprv skontrolujeme, či dokument existuje
     const userDoc = await getDoc(userDocRef);
     
     if (!userDoc.exists()) {
-      // Ak dokument neexistuje, vytvoríme ho
       console.log('🆕 Vytváram nový dokument používateľa');
       await setDoc(userDocRef, {
         readBooks: [bookId],
@@ -85,7 +83,6 @@ export const markBookAsRead = async (userId, bookId) => {
         updatedAt: new Date()
       });
     } else {
-      // Ak existuje, aktualizujeme ho
       await updateDoc(userDocRef, {
         readBooks: arrayUnion(bookId),
         updatedAt: new Date()
@@ -111,7 +108,6 @@ export const unmarkBookAsRead = async (userId, bookId) => {
   try {
     const userDocRef = doc(db, 'users', userId);
     
-    // arrayRemove odstráni hodnotu z array
     await updateDoc(userDocRef, {
       readBooks: arrayRemove(bookId),
       updatedAt: new Date()
@@ -172,11 +168,9 @@ export const addBook = async (bookData) => {
   try {
     console.log('📚 Pridávam novú knihu:', bookData);
     
-    // Získame všetky knihy aby sme našli najvyššie ID
     const booksCollection = collection(db, 'books');
     const booksSnapshot = await getDocs(booksCollection);
     
-    // Nájdeme najvyššie ID
     let maxId = 0;
     booksSnapshot.forEach(doc => {
       const book = doc.data();
@@ -187,7 +181,6 @@ export const addBook = async (bookData) => {
     
     const newId = maxId + 1;
     
-    // Vytvoríme nový dokument s vygenerovaným ID
     const bookDocRef = doc(db, 'books', `book_${newId}`);
     await setDoc(bookDocRef, {
       ...bookData,
@@ -286,24 +279,70 @@ export const getAllBooks = async () => {
   }
 };
 
-// Migrácia testovacích kníh do Firestore (spustí sa len raz)
-export const migrateSampleBooks = async (sampleBooks) => {
+export const addToWishlist = async (userId, bookId) => {
   try {
-    console.log('🔄 Migrujem testovacie knihy do Firestore...');
+    console.log('⭐ Pridávam knihu do wishlistu:', { userId, bookId });
+    const userDocRef = doc(db, 'users', userId);
     
-    for (const book of sampleBooks) {
-      const bookDocRef = doc(db, 'books', `book_${book.id}`);
-      await setDoc(bookDocRef, {
-        ...book,
+    const userDoc = await getDoc(userDocRef);
+    
+    if (!userDoc.exists()) {
+      console.log('🆕 Vytváram nový dokument používateľa');
+      await setDoc(userDocRef, {
+        wishlist: [bookId],
+        readBooks: [],
         createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    } else {
+      await updateDoc(userDocRef, {
+        wishlist: arrayUnion(bookId),
         updatedAt: new Date()
       });
     }
     
-    console.log('✅ Migrácia dokončená!');
-    return { success: true };
+    console.log('✅ Kniha úspešne pridaná do wishlistu');
+    return { 
+      success: true,
+      message: 'Kniha bola pridaná do wishlistu'
+    };
   } catch (error) {
-    console.error('❌ Chyba pri migrácii:', error);
-    return { success: false, error: error.message };
+    console.error("❌ Chyba pri pridávaní knihy do wishlistu:", error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+// Odobranie knihy z wishlistu
+export const removeFromWishlist = async (userId, bookId) => {
+  try {
+    const userDocRef = doc(db, 'users', userId);
+    
+    await updateDoc(userDocRef, {
+      wishlist: arrayRemove(bookId),
+      updatedAt: new Date()
+    });
+    
+    return { 
+      success: true,
+      message: 'Kniha bola odobraná z wishlistu'
+    };
+  } catch (error) {
+    console.error("Chyba pri odstraňovaní knihy z wishlistu:", error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
+
+// Prepnutie stavu wishlistu (pridať/odobrať)
+export const toggleWishlist = async (userId, bookId, isInWishlist) => {
+  if (isInWishlist) {
+    return await removeFromWishlist(userId, bookId);
+  } else {
+    return await addToWishlist(userId, bookId);
   }
 };
