@@ -1,42 +1,130 @@
 /* src/components/InteractiveMap.css */
 
-/* Hlavný kontajner */
+/* Hlavný kontajner - FIXED layout */
 .map-container-wrapper {
   display: flex;
   gap: 20px;
   width: 100%;
+  max-height: 700px;
+  position: relative;
 }
 
 /* Mapa - ľavá strana */
 .map-section {
   flex: 1 1 75%;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
 }
 
 .map-wrapper {
-  height: 600px;
+  height: 600px; /* FIXNÁ VÝŠKA */
   width: 100%;
+  position: relative;
+  border-radius: 12px;
   margin-bottom: 1rem;
+  flex-shrink: 0; /* Nebude sa zmenšovať */
+}
+
+/* Leaflet kontajner - zabráň scrollovaniu von */
+.map-wrapper .leaflet-container {
+  height: 600px !important; /* FIXNÁ VÝŠKA */
+  width: 100% !important;
+  border-radius: 12px;
+  position: relative !important;
+  z-index: 1;
+}
+
+/* Vypni scroll wheel zoom na mape ak chceš (voliteľné) */
+.map-wrapper .leaflet-container.leaflet-touch-drag {
+  -ms-touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y;
+}
+
+/* Legenda pod mapou */
+.map-legend {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  flex-shrink: 0;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+.map-legend h4 {
+  margin: 0 0 0.5rem 0;
+  color: #1a202c;
+  font-size: 0.9rem;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-right: 1rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+.legend-stats {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+  color: #2d3748;
+  font-size: 0.85rem;
 }
 
 /* Sidebar - pravá strana */
 .sidebar {
-  flex: 0 0 25%;
-  height: 700px;
+  flex: 0 0 350px; /* FIXNÁ ŠÍRKA */
+  width: 350px;
+  height: 700px; /* FIXNÁ VÝŠKA */
+  max-height: 700px;
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: relative;
 }
 
-/* Header sidebaru */
+/* Custom scrollbar pre sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Header sidebaru - sticky */
 .sidebar-header {
   margin-bottom: 15px;
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  padding-bottom: 10px;
+  z-index: 10;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .sidebar-title {
   margin: 0 0 8px 0;
+  font-size: 1.1rem;
 }
 
 .sidebar-subtitle {
@@ -62,7 +150,7 @@
 
 /* Zoznam kníh */
 .books-list {
-  margin-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* Karta knihy */
@@ -91,6 +179,7 @@
   margin: 0 0 8px 0;
   color: #2c3e50;
   font-size: 16px;
+  font-weight: 600;
 }
 
 .book-card-author {
@@ -179,10 +268,10 @@
 /* Legenda farebných guličiek */
 .legend-color-dot {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 5px;
   vertical-align: middle;
 }
 
@@ -196,4 +285,79 @@
 
 .legend-color-dot.blue {
   background-color: #4575b4;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .sidebar {
+    flex: 0 0 300px;
+    width: 300px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .map-container-wrapper {
+    flex-direction: column;
+    max-height: none;
+    gap: 15px;
+  }
+  
+  .map-section {
+    width: 100%;
+    max-height: none;
+  }
+  
+  .map-wrapper {
+    height: 500px;
+  }
+  
+  .map-wrapper .leaflet-container {
+    height: 500px !important;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: 400px;
+    max-height: 400px;
+  }
+  
+  .sidebar-header {
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-wrapper {
+    height: 400px;
+  }
+  
+  .map-wrapper .leaflet-container {
+    height: 400px !important;
+  }
+  
+  .sidebar {
+    padding: 15px;
+    height: 350px;
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-wrapper {
+    height: 350px;
+  }
+  
+  .map-wrapper .leaflet-container {
+    height: 350px !important;
+  }
+  
+  .sidebar {
+    height: 300px;
+    max-height: 300px;
+  }
+  
+  .book-card-sidebar {
+    padding: 12px;
+  }
 }

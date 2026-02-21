@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 
 function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }) {
-  // Debug - pozrime sa, čo dostáva Header
   useEffect(() => {
     if (user) {
       console.log('👤 Header dostal používateľa:', user.displayName);
@@ -13,8 +12,12 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
   return (
     <header className="header">
       <div className="header-container">
-        {/* Logo a názov */}
-        <div className="logo-section">
+        {/* Logo a názov - KLIKATEĽNÝ */}
+        <div 
+          className="logo-section" 
+          onClick={() => setCurrentPage('leaderboard')}
+          style={{ cursor: 'pointer' }}
+        >
           <div className="logo">📚</div>
           <h1 className="app-title">Cestujeme v knihách</h1>
         </div>
@@ -34,6 +37,13 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
           >
             🔍 Vyhľadávanie
           </button>
+
+          {/*<button 
+            onClick={() => setCurrentPage('leaderboard')}
+            className={`nav-button ${currentPage === 'leaderboard' ? 'active' : ''}`}
+          >
+            🏆 Rebríčky
+          </button>*/}
 
           {/* Admin tlačidlo - viditeľné len pre adminov */}
           {user && user.isAdmin && (

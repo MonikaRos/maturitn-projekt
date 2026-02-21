@@ -5,6 +5,7 @@ import MapPage from './components/MapPage';
 import SearchPage from './components/SearchPage';
 import ProfilePage from './components/ProfilePage';
 import AdminPage from './components/AdminPage';
+import LeaderboardPage from './components/LeaderboardPage'; // NOVÉ
 import LoginForm from './components/LoginForm';
 import { onAuthChange, logoutUser } from './firebase/auth';
 import { getAllBooks } from './firebase/firestore';
@@ -66,7 +67,6 @@ function App() {
     }
   };
 
-  // Funkcia na aktualizáciu stavu prečítaných kníh
   const handleBookStatusChange = (bookId, newStatus) => {
     setUser(prevUser => {
       if (!prevUser) return prevUser;
@@ -82,7 +82,6 @@ function App() {
     });
   };
 
-  // NOVÁ FUNKCIA na aktualizáciu wishlistu
   const handleWishlistChange = (bookId, newStatus) => {
     setUser(prevUser => {
       if (!prevUser) return prevUser;
@@ -140,6 +139,12 @@ function App() {
             user={user} 
             onBookStatusChange={handleBookStatusChange}
             onWishlistChange={handleWishlistChange}
+          />
+        )}
+        {currentPage === 'leaderboard' && (
+          <LeaderboardPage 
+            books={books}
+            user={user}
           />
         )}
         {currentPage === 'admin' && (
