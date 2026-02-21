@@ -40,6 +40,37 @@ const createBookIcon = (count) => {
   });
 };
 
+const getNormalizedCoordinates = (book) => {
+  if (!book || !book.coordinates) {
+    return null;
+  }
+
+  const { coordinates } = book;
+
+  if (Array.isArray(coordinates) && coordinates.length >= 2) {
+    const lat = Number(coordinates[0]);
+    const lng = Number(coordinates[1]);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      return [lat, lng];
+    }
+  }
+
+  if (typeof coordinates === 'object') {
+    const lat = Number(
+      coordinates.lat ?? coordinates.latitude ?? coordinates._lat
+    );
+    const lng = Number(
+      coordinates.lng ?? coordinates.lon ?? coordinates.longitude ?? coordinates._long ?? coordinates._lng
+    );
+
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      return [lat, lng];
+    }
+  }
+
+  return null;
+};
+
 function MapController({ center, zoom }) {
   const map = useMap();
   
@@ -62,6 +93,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   const markerRefs = useRef({});
   const defaultCenter = [50.0, 10.0];
   const defaultZoom = 4;
+  const safeBooks = useMemo(() => (Array.isArray(books) ? books : []), [books]);
 
   useEffect(() => {
     console.log('✅ SelectedLocation zmenené:', selectedLocation);
@@ -73,9 +105,16 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   const groupedBooks = useMemo(() => {
     const groups = {};
     
-    books.forEach(book => {
-      const lat = Math.round(book.coordinates[0] * 100) / 100;
-      const lng = Math.round(book.coordinates[1] * 100) / 100;
+    safeBooks.forEach(book => {
+      const normalizedCoordinates = getNormalizedCoordinates(book);
+      if (!normalizedCoordinates) {
+        return;
+      }
+
+      const [latValue, lngValue] = normalizedCoordinates;
+
+      const lat = Math.round(latValue * 100) / 100;
+      const lng = Math.round(lngValue * 100) / 100;
       const key = `${lat},${lng}`;
       
       if (!groups[key]) {
@@ -91,7 +130,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     });
     
     return Object.values(groups);
-  }, [books]);
+  }, [safeBooks]);
 
   const handleMarkerClick = (locationGroup) => {
     console.log('🗺️ Kliknuté na marker:', locationGroup.location);
@@ -102,9 +141,16 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
 
   const handleBookClick = (book) => {
     console.log('🖱️ KLIKNUTÉ NA KNIHU:', book.title);
+
+    const normalizedCoordinates = getNormalizedCoordinates(book);
+    if (!normalizedCoordinates) {
+      return;
+    }
+
+    const [latValue, lngValue] = normalizedCoordinates;
     
-    const lat = Math.round(book.coordinates[0] * 100) / 100;
-    const lng = Math.round(book.coordinates[1] * 100) / 100;
+    const lat = Math.round(latValue * 100) / 100;
+    const lng = Math.round(lngValue * 100) / 100;
     const locationKey = `${lat},${lng}`;
     
     console.log('🔑 Location key:', locationKey);
@@ -143,7 +189,9 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     const result = await toggleBookReadStatus(user.uid, book.id, isCurrentlyRead);
     
     if (result.success) {
-      onBookStatusChange(book.id, !isCurrentlyRead);
+      if (typeof onBookStatusChange === 'function') {
+        onBookStatusChange(book.id, !isCurrentlyRead);
+      }
     } else {
       alert('Nastala chyba: ' + result.error);
     }
@@ -165,7 +213,9 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     const result = await toggleWishlist(user.uid, book.id, isCurrentlyInWishlist);
     
     if (result.success) {
-      onWishlistChange(book.id, !isCurrentlyInWishlist);
+      if (typeof onWishlistChange === 'function') {
+        onWishlistChange(book.id, !isCurrentlyInWishlist);
+      }
     } else {
       alert('Nastala chyba: ' + result.error);
     }
@@ -179,7 +229,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     setMapZoom(defaultZoom);
   };
 
-  const booksToDisplay = selectedLocation ? selectedLocation.books : books;
+  const booksToDisplay = selectedLocation ? selectedLocation.books : safeBooks;
   
   console.log('🔍 Render - selectedLocation:', selectedLocation ? selectedLocation.location : 'null');
   console.log('📖 Render - booksToDisplay count:', booksToDisplay.length);
@@ -252,7 +302,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
             <span>3+ kníh</span>
           </div>
           <div className="legend-stats">
-            <strong>{books.length}</strong> kníh na <strong>{groupedBooks.length}</strong> miestach
+            <strong>{safeBooks.length}</strong> kníh na <strong>{groupedBooks.length}</strong> miestach
           </div>
         </div>
       </div>
@@ -273,7 +323,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
             <>
               <h3 className="sidebar-title">📚 Všetky knihy</h3>
               <p className="sidebar-subtitle">
-                {books.length} {books.length === 1 ? 'kniha' : books.length < 5 ? 'knihy' : 'kníh'} celkom
+                {safeBooks.length} {safeBooks.length === 1 ? 'kniha' : safeBooks.length < 5 ? 'knihy' : 'kníh'} celkom
               </p>
             </>
           )}

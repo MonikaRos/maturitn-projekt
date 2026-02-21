@@ -5,8 +5,9 @@ import MapPage from './components/MapPage';
 import SearchPage from './components/SearchPage';
 import ProfilePage from './components/ProfilePage';
 import AdminPage from './components/AdminPage';
-import LeaderboardPage from './components/LeaderboardPage'; // NOVÉ
+import LeaderboardPage from './components/LeaderboardPage';
 import LoginForm from './components/LoginForm';
+import SeedDatabaseButton from './components/SeedDatabaseButton'; // SEED BUTTON
 import { onAuthChange, logoutUser } from './firebase/auth';
 import { getAllBooks } from './firebase/firestore';
 import './styles/App.css';
@@ -171,6 +172,9 @@ function App() {
           </div>
         )}
       </main>
+
+      {/* SEED DATABASE BUTTON - Zobrazí sa len pre adminov */}
+      {user && user.isAdmin && <SeedDatabaseButton />}
     </div>
   );
 }
