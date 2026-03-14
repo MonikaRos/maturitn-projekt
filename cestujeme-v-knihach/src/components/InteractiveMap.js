@@ -40,34 +40,46 @@ const createBookIcon = (count) => {
   });
 };
 
+// Pokrýva VŠETKY možné formáty súradníc z Firestore:
+// 1. Pole: [lat, lon]
+// 2. Firestore GeoPoint (po deserializácii): { _lat, _long } alebo { _lat, _lng }
+// 3. Obyčajný objekt: { lat, lon } / { lat, lng } / { latitude, longitude }
 const getNormalizedCoordinates = (book) => {
   if (!book || !book.coordinates) {
+    console.warn(`⚠️ Kniha "${book?.title}" nemá coordinates`);
     return null;
   }
 
-  const { coordinates } = book;
+  const c = book.coordinates;
 
-  if (Array.isArray(coordinates) && coordinates.length >= 2) {
-    const lat = Number(coordinates[0]);
-    const lng = Number(coordinates[1]);
+  // Formát 1: pole [lat, lon]
+  if (Array.isArray(c) && c.length >= 2) {
+    const lat = Number(c[0]);
+    const lng = Number(c[1]);
     if (Number.isFinite(lat) && Number.isFinite(lng)) {
       return [lat, lng];
     }
   }
 
-  if (typeof coordinates === 'object') {
-    const lat = Number(
-      coordinates.lat ?? coordinates.latitude ?? coordinates._lat
-    );
-    const lng = Number(
-      coordinates.lng ?? coordinates.lon ?? coordinates.longitude ?? coordinates._long ?? coordinates._lng
-    );
-
+  // Formát 2: Firestore GeoPoint – { _lat, _long } alebo { _lat, _lng }
+  if (typeof c === 'object' && '_lat' in c) {
+    const lat = Number(c._lat);
+    const lng = Number(c._long ?? c._lng);
     if (Number.isFinite(lat) && Number.isFinite(lng)) {
       return [lat, lng];
     }
   }
 
+  // Formát 3: obyčajný objekt { lat/latitude, lon/lng/longitude }
+  if (typeof c === 'object') {
+    const lat = Number(c.lat ?? c.latitude);
+    const lng = Number(c.lng ?? c.lon ?? c.longitude);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      return [lat, lng];
+    }
+  }
+
+  console.warn(`⚠️ Neznámy formát súradníc pre "${book.title}":`, c);
   return null;
 };
 
@@ -95,8 +107,17 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   const defaultZoom = 4;
   const safeBooks = useMemo(() => (Array.isArray(books) ? books : []), [books]);
 
+  // Debug: vypiš koľko kníh má platné súradnice
   useEffect(() => {
-    console.log('✅ SelectedLocation zmenené:', selectedLocation);
+    const withCoords = safeBooks.filter(b => getNormalizedCoordinates(b) !== null);
+    const withoutCoords = safeBooks.filter(b => getNormalizedCoordinates(b) === null);
+    console.log(`🗺️ Knihy so súradnicami: ${withCoords.length}/${safeBooks.length}`);
+    if (withoutCoords.length > 0) {
+      console.warn('❌ Knihy BEZ súradníc:', withoutCoords.map(b => `${b.title} (${JSON.stringify(b.coordinates)})`));
+    }
+  }, [safeBooks]);
+
+  useEffect(() => {
     if (selectedLocation) {
       console.log('📚 Počet kníh v selectedLocation:', selectedLocation.books.length);
     }
@@ -108,11 +129,10 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     safeBooks.forEach(book => {
       const normalizedCoordinates = getNormalizedCoordinates(book);
       if (!normalizedCoordinates) {
-        return;
+        return; // preskočí knihy bez platných súradníc
       }
 
       const [latValue, lngValue] = normalizedCoordinates;
-
       const lat = Math.round(latValue * 100) / 100;
       const lng = Math.round(lngValue * 100) / 100;
       const key = `${lat},${lng}`;
@@ -129,35 +149,26 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
       groups[key].books.push(book);
     });
     
+    console.log(`📍 Počet skupín na mape: ${Object.keys(groups).length}`);
     return Object.values(groups);
   }, [safeBooks]);
 
   const handleMarkerClick = (locationGroup) => {
-    console.log('🗺️ Kliknuté na marker:', locationGroup.location);
     setSelectedLocation(locationGroup);
     setMapCenter(locationGroup.coordinates);
     setMapZoom(10);
   };
 
   const handleBookClick = (book) => {
-    console.log('🖱️ KLIKNUTÉ NA KNIHU:', book.title);
-
     const normalizedCoordinates = getNormalizedCoordinates(book);
-    if (!normalizedCoordinates) {
-      return;
-    }
+    if (!normalizedCoordinates) return;
 
     const [latValue, lngValue] = normalizedCoordinates;
-    
     const lat = Math.round(latValue * 100) / 100;
     const lng = Math.round(lngValue * 100) / 100;
     const locationKey = `${lat},${lng}`;
     
-    console.log('🔑 Location key:', locationKey);
-    
     const locationGroup = groupedBooks.find(group => group.key === locationKey);
-    
-    console.log('🗺️ Nájdená locationGroup:', locationGroup);
     
     if (locationGroup) {
       setSelectedLocation(locationGroup);
@@ -170,8 +181,6 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
           markerRef.openPopup();
         }
       }, 100);
-    } else {
-      console.error('❌ LocationGroup sa nenašla!');
     }
   };
 
@@ -230,9 +239,6 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   };
 
   const booksToDisplay = selectedLocation ? selectedLocation.books : safeBooks;
-  
-  console.log('🔍 Render - selectedLocation:', selectedLocation ? selectedLocation.location : 'null');
-  console.log('📖 Render - booksToDisplay count:', booksToDisplay.length);
 
   return (
     <div className="map-container-wrapper">
@@ -371,7 +377,6 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
                           {isLoading ? '⏳' : (isRead ? '✓ Prečítané' : '+ Označiť ako prečítané')}
                         </button>
                         
-                        {/* NOVÉ TLAČIDLO PRE WISHLIST */}
                         <button
                           onClick={(e) => handleToggleWishlist(book, e)}
                           disabled={isWishlistLoading}
@@ -388,7 +393,6 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
                       </div>
                     )}
                     
-                    {/* NOVÝ BADGE PRE WISHLIST */}
                     {isInWishlist && !isRead && (
                       <div className="wishlist-badge">
                         ⭐ V zozname želaní
