@@ -4,8 +4,9 @@
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(26, 54, 93, 0.1);
   margin-bottom: 2rem;
+  border: 2px solid #bfdbfe;
 }
 
 .personal-map-header {
@@ -15,13 +16,13 @@
 
 .personal-map-header h3 {
   margin: 0 0 0.5rem 0;
-  color: #1a202c;
+  color: #1a365d;
   font-size: 1.5rem;
 }
 
 .personal-map-header p {
   margin: 0;
-  color: #666;
+  color: #64748b;
   font-size: 0.95rem;
 }
 
@@ -31,7 +32,7 @@
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 1.5rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #bfdbfe;
 }
 
 .personal-map-stats {
@@ -46,7 +47,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   border-radius: 12px;
   color: white;
 }
@@ -69,8 +70,8 @@
 
 /* Prázdny stav */
 .personal-map-empty {
-  background: #f7fafc;
-  border: 2px dashed #cbd5e0;
+  background: linear-gradient(135deg, #dbeafe 0%, #e0f7ff 100%);
+  border: 2px dashed #bfdbfe;
   border-radius: 12px;
   padding: 3rem;
   text-align: center;
@@ -83,12 +84,12 @@
 }
 
 .personal-map-empty h3 {
-  color: #2d3748;
+  color: #1a365d;
   margin: 0 0 0.5rem 0;
 }
 
 .personal-map-empty p {
-  color: #718096;
+  color: #1a365d;
   margin: 0;
 }
 
@@ -99,19 +100,19 @@
 
 .personal-popup h4 {
   margin: 0 0 0.5rem 0;
-  color: #1a202c;
+  color: #1a365d;
   font-size: 1rem;
 }
 
 .popup-count {
   margin: 0 0 0.8rem 0;
-  color: #48bb78;
+  color: #2563eb;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .popup-books {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #bfdbfe;
   padding-top: 0.8rem;
 }
 
@@ -122,11 +123,11 @@
 }
 
 .popup-book strong {
-  color: #2d3748;
+  color: #1a365d;
 }
 
 .popup-author {
-  color: #718096;
+  color: #64748b;
 }
 
 /* Markery */

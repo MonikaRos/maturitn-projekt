@@ -6,6 +6,8 @@ function BookCard({ book, user, isRead, isInWishlist, onStatusChange, onWishlist
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+  const fallbackImage = `https://dummyimage.com/200x300/f4efe6/2e2e2e&text=${encodeURIComponent(book?.title || 'Kniha')}`;
+  const bookImage = book?.cover || book?.image || fallbackImage;
 
   // Funkcia na označenie/odznačenie knihy ako prečítanú
   const handleToggleRead = async (e) => {
@@ -58,7 +60,15 @@ function BookCard({ book, user, isRead, isInWishlist, onStatusChange, onWishlist
     >
       <div className="book-card-header">
         <div className="book-image">
-          <img src={book.image} alt={book.title} />
+          <img
+            src={bookImage}
+            alt={book.title}
+            onError={(e) => {
+              if (e.currentTarget.src !== fallbackImage) {
+                e.currentTarget.src = fallbackImage;
+              }
+            }}
+          />
         </div>
         
         <div className="book-info">

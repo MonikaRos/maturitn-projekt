@@ -4,6 +4,14 @@ import { addBook, updateBook, deleteBook, getAllBooks } from '../firebase/firest
 import { getCoordinates, formatCoordinates } from '../utils/geocoding';
 import { searchBooks, getCoverUrl, extractGenre, formatAuthors, getAvailableGenres, getLanguageName } from '../utils/openLibraryApi';
 
+const getBookImage = (book) => {
+  const fallbackImage = `https://dummyimage.com/200x300/f4efe6/2e2e2e&text=${encodeURIComponent(book?.title || 'Kniha')}`;
+  return {
+    src: book?.cover || book?.image || fallbackImage,
+    fallback: fallbackImage
+  };
+};
+
 function AdminPage({ user, onBooksChange }) {
   // Stavy
   const [books, setBooks] = useState([]);
@@ -203,7 +211,7 @@ function AdminPage({ user, onBooksChange }) {
       description: book.description,
       genre: book.genre,
       year: book.year,
-      image: book.image
+      image: book.image || book.cover || ''
     });
     setFoundCoordinates({ coordinates: book.coordinates, success: true });
     setShowForm(true);
@@ -545,7 +553,16 @@ function AdminPage({ user, onBooksChange }) {
           <div className="admin-books-grid">
             {books.map(book => (
               <div key={book.id} className="admin-book-card">
-                <img src={book.image} alt={book.title} />
+                <img
+                  src={getBookImage(book).src}
+                  alt={book.title}
+                  onError={(e) => {
+                    const { fallback } = getBookImage(book);
+                    if (e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
+                  }}
+                />
                 <div className="admin-book-info">
                   <h3>{book.title}</h3>
                   <p className="book-author">{book.author}</p>

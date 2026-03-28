@@ -4,6 +4,14 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import './LeaderboardPage.css';
 
+const getBookImage = (book) => {
+  const fallbackImage = `https://dummyimage.com/200x300/f4efe6/2e2e2e&text=${encodeURIComponent(book?.title || 'Kniha')}`;
+  return {
+    src: book?.cover || book?.image || fallbackImage,
+    fallback: fallbackImage
+  };
+};
+
 function LeaderboardPage({ books, user }) {
   const [allUsers, setAllUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
@@ -235,7 +243,16 @@ function LeaderboardPage({ books, user }) {
                   {index < 3 ? ['🥇', '🥈', '🥉'][index] : `#${index + 1}`}
                 </div>
                 <div className="item-image">
-                  <img src={book.image} alt={book.title} />
+                  <img
+                    src={getBookImage(book).src}
+                    alt={book.title}
+                    onError={(e) => {
+                      const { fallback } = getBookImage(book);
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
+                  />
                 </div>
                 <div className="item-info">
                   <h4>{book.title}</h4>

@@ -1,0 +1,19 @@
+[debug] [2026-03-28T21:47:54.492Z] ----------------------------------------------------------------------
+[debug] [2026-03-28T21:47:54.499Z] Command:       C:\Users\monik\node_modules\node\bin\node.exe C:\Users\monik\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2026-03-28T21:47:54.500Z] CLI Version:   15.12.0
+[debug] [2026-03-28T21:47:54.500Z] Platform:      win32
+[debug] [2026-03-28T21:47:54.500Z] Node Version:  v22.0.0
+[debug] [2026-03-28T21:47:54.500Z] Time:          Sat Mar 28 2026 22:47:54 GMT+0100 (stredoeurópsky štandardný čas)
+[debug] [2026-03-28T21:47:54.501Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\monik\Desktop\zoška\4.ročník\maturitný projekt\maturitn-projekt
+
