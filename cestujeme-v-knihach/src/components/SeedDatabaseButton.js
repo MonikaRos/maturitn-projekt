@@ -15,14 +15,14 @@ function SeedDatabaseButton() {
     }
 
     setIsSeeding(true);
-    setMessage('⏳ Naplňujem databázu...');
+    setMessage(' Naplňujem databázu...');
 
     const result = await seedDatabase();
 
     if (result.success) {
-      setMessage('✅ Databáza úspešne naplnená! Obnovte stránku.');
+      setMessage(' Databáza úspešne naplnená! Obnovte stránku.');
     } else {
-      setMessage('❌ Chyba pri naplňovaní databázy. Pozrite konzolu.');
+      setMessage(' Chyba pri naplňovaní databázy. Pozrite konzolu.');
     }
 
     setIsSeeding(false);

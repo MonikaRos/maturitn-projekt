@@ -18,7 +18,7 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
           onClick={() => setCurrentPage('leaderboard')}
           style={{ cursor: 'pointer' }}
         >
-          <div className="logo">📚</div>
+          <div className="logo"></div>
           <h1 className="app-title">Cestujeme v knihách</h1>
         </div>
 
@@ -38,12 +38,7 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
             🔍 Vyhľadávanie
           </button>
 
-          {/*<button 
-            onClick={() => setCurrentPage('leaderboard')}
-            className={`nav-button ${currentPage === 'leaderboard' ? 'active' : ''}`}
-          >
-            🏆 Rebríčky
-          </button>*/}
+          
 
           {/* Admin tlačidlo - viditeľné len pre adminov */}
           {user && user.isAdmin && (
@@ -62,7 +57,7 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
                 onClick={() => setCurrentPage('profile')}
                 className={`nav-button ${currentPage === 'profile' ? 'active' : ''}`}
               >
-                👤 {user.displayName}
+                 {user.displayName}
               </button>
               <button 
                 onClick={handleLogout}
@@ -76,7 +71,7 @@ function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }
               onClick={handleLogin}
               className="login-button"
             >
-              👤 Prihlásiť sa
+               Prihlásiť sa
             </button>
           )}
         </nav>

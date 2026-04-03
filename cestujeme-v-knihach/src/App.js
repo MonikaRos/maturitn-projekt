@@ -34,10 +34,10 @@ function App() {
     const result = await getAllBooks();
     
     if (result.success && result.books.length > 0) {
-      console.log('✅ Načítané knihy z Firestore:', result.books.length);
+      console.log('Načítané knihy z Firestore:', result.books.length);
       setBooks(result.books);
     } else {
-      console.log('⚠️ Žiadne knihy v databáze');
+      console.log(' Žiadne knihy v databáze');
       setBooks([]);
     }
   };
@@ -54,8 +54,8 @@ function App() {
   };
 
   const handleLoginSuccess = (userData) => {
-    console.log('📥 App.js dostal používateľa:', userData);
-    console.log('🔑 isAdmin v App.js:', userData.isAdmin);
+    console.log(' App.js dostal používateľa:', userData);
+    console.log(' isAdmin v App.js:', userData.isAdmin);
     setUser(userData);
     setShowLoginForm(false);
   };
@@ -167,7 +167,7 @@ function App() {
             <h2>Prihláste sa pre zobrazenie profilu</h2>
             <p>Pre prístup k profilu a osobnej mape sa musíte prihlásiť.</p>
             <button onClick={handleLoginClick} className="login-button">
-              🔐 Prihlásiť sa
+               Prihlásiť sa
             </button>
           </div>
         )}

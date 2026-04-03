@@ -57,7 +57,7 @@ function SearchPage({ books, user, onBookStatusChange, onWishlistChange }) {
   return (
     <div className="search-page">
       <div className="page-header">
-        <h2>🔍 Vyhľadávanie kníh</h2>
+        <h2> Vyhľadávanie kníh</h2>
         <p>Nájdite knihy podľa názvu, autora, miesta alebo žánru</p>
       </div>
 
@@ -156,7 +156,7 @@ function SearchPage({ books, user, onBookStatusChange, onWishlistChange }) {
           </div>
         ) : (
           <div className="no-results">
-            <div className="no-results-icon">📚</div>
+            <div className="no-results-icon"></div>
             <h3>Žiadne knihy sa nenašli</h3>
             <p>Skúste zmeniť vyhľadávacie kritériá alebo vyčistiť filtre</p>
             <button onClick={clearSearch} className="try-again-button">

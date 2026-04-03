@@ -48,8 +48,8 @@ function LoginForm({ onClose, onLoginSuccess }) {
       }
 
       if (result.success) {
-        console.log('✅ Prihlásenie/Registrácia úspešná, používateľ:', result.user);
-        console.log('🔑 isAdmin:', result.user.isAdmin);
+        console.log(' Prihlásenie/Registrácia úspešná, používateľ:', result.user);
+        console.log(' isAdmin:', result.user.isAdmin);
         
         // Zavolaj callback funkciu s úplnými dátami
         onLoginSuccess(result.user);
@@ -84,7 +84,7 @@ function LoginForm({ onClose, onLoginSuccess }) {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>✕</button>
         
-        <h2>{isLogin ? '🔐 Prihlásenie' : '✨ Registrácia'}</h2>
+        <h2>{isLogin ? ' Prihlásenie' : ' Registrácia'}</h2>
         <p className="modal-subtitle">
           {isLogin 
             ? 'Vitajte späť! Prihláste sa do svojho účtu.' 
@@ -94,7 +94,7 @@ function LoginForm({ onClose, onLoginSuccess }) {
 
         {error && (
           <div className="error-message">
-            ⚠️ {error}
+             {error}
           </div>
         )}
 
@@ -143,7 +143,7 @@ function LoginForm({ onClose, onLoginSuccess }) {
             className="submit-button"
             disabled={loading}
           >
-            {loading ? '⏳ Načítavam...' : (isLogin ? '🔓 Prihlásiť sa' : '✨ Registrovať sa')}
+            {loading ? ' Načítavam...' : (isLogin ? 'Prihlásiť sa' : ' Registrovať sa')}
           </button>
         </form>
 

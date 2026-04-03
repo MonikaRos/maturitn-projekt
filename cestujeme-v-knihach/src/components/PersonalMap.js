@@ -68,7 +68,7 @@ function PersonalMap({ readBooks }) {
   if (readBooks.length === 0) {
     return (
       <div className="personal-map-empty">
-        <div className="empty-icon">🗺️</div>
+        <div className="empty-icon"></div>
         <h3>Vaša literárna mapa je prázdna</h3>
         <p>Začnite označovať knihy ako prečítané a uvidíte ich tu!</p>
       </div>
@@ -78,7 +78,7 @@ function PersonalMap({ readBooks }) {
   return (
     <div className="personal-map-container">
       <div className="personal-map-header">
-        <h3>🗺️ Vaša literárna mapa</h3>
+        <h3> Vaša literárna mapa</h3>
         <p>Miesta, ktoré ste navštívili cez knihy</p>
       </div>
 

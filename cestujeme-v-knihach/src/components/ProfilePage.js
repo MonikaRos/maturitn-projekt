@@ -21,7 +21,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
   return (
     <div className="profile-page">
       <div className="page-header">
-        <h2>👤 Môj literárny profil</h2>
+        <h2> Môj literárny profil</h2>
         <p>Vitajte späť, {user.displayName || user.email}!</p>
       </div>
 
@@ -32,7 +32,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
         {/* Prečítané knihy */}
         <div className="reading-section">
           <h3 className="section-title">
-            📚 Vaše literárne cesty ({readBooks.length})
+             Vaše literárne cesty ({readBooks.length})
           </h3>
           
           {readBooks.length > 0 ? (
@@ -51,7 +51,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
             </div>
           ) : (
             <div className="empty-state">
-              <div className="empty-icon">📖</div>
+              <div className="empty-icon"></div>
               <p>Zatiaľ nemáte označené žiadne prečítané knihy</p>
             </div>
           )}
@@ -59,7 +59,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
 
         {/* Krajiny ktoré ste navštívili */}
         <div className="travel-map-section">
-          <h3 className="section-title">🌍 Krajiny, ktoré ste navštívili</h3>
+          <h3 className="section-title"> Krajiny, ktoré ste navštívili</h3>
           
           <div className="map-container">
             <div className="countries-visited">
@@ -76,7 +76,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
               </div>
               
               {totalCountries === 0 && (
-                <p className="no-countries">Začnite čítať a objavte nové krajiny! 🌎</p>
+                <p className="no-countries">Začnite čítať a objavte nové krajiny! </p>
               )}
             </div>
           </div>
@@ -85,7 +85,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
         {/* WISHLIST - Knihy na prečítanie */}
         <div className="wishlist-section">
           <h3 className="section-title">
-            ⭐ Môj wishlist - Chcem prečítať ({wishlistBooks.length})
+             Môj wishlist - Chcem prečítať ({wishlistBooks.length})
           </h3>
           
           {wishlistBooks.length > 0 ? (
@@ -104,7 +104,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
             </div>
           ) : (
             <div className="empty-state">
-              <div className="empty-icon">⭐</div>
+              <div className="empty-icon"></div>
               <p>Váš wishlist je prázdny. Pridajte knihy, ktoré chcete prečítať!</p>
             </div>
           )}
@@ -113,7 +113,7 @@ function ProfilePage({ user, books, onBookStatusChange, onWishlistChange }) {
         {/* Obľúbené žánre */}
         {favoriteGenres.length > 0 && (
           <div className="genres-section">
-            <h3 className="section-title">🎭 Vaše obľúbené žánre</h3>
+            <h3 className="section-title"> Vaše obľúbené žánre</h3>
             <div className="genres-list">
               {favoriteGenres.map(({ genre, count }) => (
                 <div key={genre} className="genre-item">

@@ -51,7 +51,7 @@ export const loginUser = async (email, password) => {
     
     const userData = await getUserData(user.uid);
     
-    console.log('✅ Prihlásenie úspešné, načítané dáta:', userData);
+    console.log(' Prihlásenie úspešné, načítané dáta:', userData);
     
     return {
       success: true,
@@ -91,11 +91,11 @@ export const logoutUser = async () => {
 export const onAuthChange = (callback) => {
   return onAuthStateChanged(auth, async (user) => {
     if (user) {
-      console.log('👤 Používateľ prihlásený:', user.email);
+      console.log(' Používateľ prihlásený:', user.email);
       
       const userData = await getUserData(user.uid);
       
-      console.log('📊 Dáta používateľa:', userData);
+      console.log('Dáta používateľa:', userData);
       
       callback({
         uid: user.uid,
@@ -106,7 +106,7 @@ export const onAuthChange = (callback) => {
         isAdmin: userData.success ? (userData.data.isAdmin || false) : false
       });
     } else {
-      console.log('🚪 Používateľ odhlásený');
+      console.log(' Používateľ odhlásený');
       callback(null);
     }
   });

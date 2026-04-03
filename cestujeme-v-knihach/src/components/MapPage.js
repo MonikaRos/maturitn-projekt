@@ -6,7 +6,7 @@ function MapPage({ books, user, onBookStatusChange, onWishlistChange }) {
   return (
     <div className="map-page">
       <div className="page-header">
-        <h2>🗺️ Mapa literárnych miest</h2>
+        <h2> Mapa literárnych miest</h2>
         <p>Objavte miesta, kde sa odohráli vaše obľúbené knihy</p>
       </div>
 

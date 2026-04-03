@@ -30,7 +30,7 @@ function LeaderboardPage({ books, user }) {
         });
         setAllUsers(users);
       } catch (error) {
-        console.error('❌ Chyba pri načítaní používateľov:', error);
+        console.error(' Chyba pri načítaní používateľov:', error);
       } finally {
         setIsLoadingUsers(false);
       }
@@ -58,7 +58,7 @@ function LeaderboardPage({ books, user }) {
       });
     });
 
-    console.log('📊 bookReadCounts:', bookReadCounts);
+    console.log(' bookReadCounts:', bookReadCounts);
 
     // 1. Top knihy podľa počtu prečítaní
     const topBooks = books
@@ -69,7 +69,7 @@ function LeaderboardPage({ books, user }) {
       .sort((a, b) => b.readCount - a.readCount)
       .slice(0, 10);
 
-    console.log('📖 Top knihy:', topBooks.map(b => `${b.title}: ${b.readCount}`));
+    console.log(' Top knihy:', topBooks.map(b => `${b.title}: ${b.readCount}`));
 
     // 2. Top krajiny
     const countryMap = {};
@@ -170,7 +170,7 @@ function LeaderboardPage({ books, user }) {
     return (
       <div className="leaderboard-page">
         <div className="page-header">
-          <h2>🏆 Rebríčky a štatistiky</h2>
+          <h2> Rebríčky a štatistiky</h2>
           <p>Načítavam dáta...</p>
         </div>
       </div>
@@ -181,7 +181,7 @@ function LeaderboardPage({ books, user }) {
     return (
       <div className="leaderboard-page">
         <div className="page-header">
-          <h2>🏆 Rebríčky a štatistiky</h2>
+          <h2> Rebríčky a štatistiky</h2>
           <p>Žiadne dáta na zobrazenie.</p>
         </div>
       </div>
@@ -191,7 +191,7 @@ function LeaderboardPage({ books, user }) {
   return (
     <div className="leaderboard-page">
       <div className="page-header">
-        <h2>🏆 Rebríčky a štatistiky</h2>
+        <h2> Rebríčky a štatistiky</h2>
         <p>Objavte najpopulárnejšie knihy, krajiny a žánre v našej zbierke</p>
       </div>
 
@@ -233,7 +233,7 @@ function LeaderboardPage({ books, user }) {
         {/* Top knihy */}
         <div className="leaderboard-section">
           <div className="section-header">
-            <h3>📖 Najpopulárnejšie knihy</h3>
+            <h3> Najpopulárnejšie knihy</h3>
             <p>Zoradené podľa skutočného počtu prečítaní</p>
           </div>
           <div className="leaderboard-list">
@@ -273,7 +273,7 @@ function LeaderboardPage({ books, user }) {
         {/* Top krajiny */}
         <div className="leaderboard-section">
           <div className="section-header">
-            <h3>🌍 Najpopulárnejšie krajiny</h3>
+            <h3>Najpopulárnejšie krajiny</h3>
             <p>Zoradené podľa počtu kníh</p>
           </div>
           <div className="leaderboard-list">
@@ -309,7 +309,7 @@ function LeaderboardPage({ books, user }) {
       <div className="secondary-stats">
         <div className="leaderboard-section compact">
           <div className="section-header">
-            <h3>🎭 Najpopulárnejšie žánre</h3>
+            <h3> Najpopulárnejšie žánre</h3>
             <p>Zoradené podľa počtu prečítaní</p>
           </div>
           <div className="genre-grid">
@@ -333,7 +333,7 @@ function LeaderboardPage({ books, user }) {
 
         <div className="leaderboard-section compact">
           <div className="section-header">
-            <h3>🏙️ Najpopulárnejšie mestá</h3>
+            <h3>Najpopulárnejšie mestá</h3>
             <p>Zoradené podľa počtu prečítaní</p>
           </div>
           <div className="cities-list">
@@ -358,7 +358,7 @@ function LeaderboardPage({ books, user }) {
       {stats.topReaders.length > 0 && (
         <div className="leaderboard-section" style={{ marginBottom: '2rem' }}>
           <div className="section-header">
-            <h3>👑 Top čitatelia</h3>
+            <h3> Top čitatelia</h3>
             <p>Najaktívnejší čitatelia v komunite</p>
           </div>
           <div className="leaderboard-list">
@@ -369,7 +369,7 @@ function LeaderboardPage({ books, user }) {
                 </div>
                 <div className="item-info">
                   <h4>{reader.displayName}</h4>
-                  <p className="item-meta">⭐ {reader.wishlistCount} vo wishlist-e</p>
+                  <p className="item-meta"> {reader.wishlistCount} vo wishlist-e</p>
                 </div>
                 <div className="item-score">
                   <div className="score-value">{reader.readCount}</div>
@@ -387,7 +387,7 @@ function LeaderboardPage({ books, user }) {
       {user && userStats && (
         <div className="user-comparison">
           <div className="section-header">
-            <h3>📊 Vaše štatistiky</h3>
+            <h3> Vaše štatistiky</h3>
             <p>
               {stats.totalUsers > 0
                 ? `Ste na ${userStats.userRank}. mieste spomedzi ${stats.totalUsers} čitateľov`

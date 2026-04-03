@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import './InteractiveMap.css';
 import L from 'leaflet';
 
-console.log('🚀 InteractiveMap.js SA NAČÍTAL!');
+console.log(' InteractiveMap.js SA NAČÍTAL!');
 
 // Fix pre ikony markerov v Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -46,7 +46,7 @@ const createBookIcon = (count) => {
 // 3. Obyčajný objekt: { lat, lon } / { lat, lng } / { latitude, longitude }
 const getNormalizedCoordinates = (book) => {
   if (!book || !book.coordinates) {
-    console.warn(`⚠️ Kniha "${book?.title}" nemá coordinates`);
+    console.warn(`Kniha "${book?.title}" nemá coordinates`);
     return null;
   }
 
@@ -79,7 +79,7 @@ const getNormalizedCoordinates = (book) => {
     }
   }
 
-  console.warn(`⚠️ Neznámy formát súradníc pre "${book.title}":`, c);
+  console.warn(`Neznámy formát súradníc pre "${book.title}":`, c);
   return null;
 };
 
@@ -111,15 +111,15 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   useEffect(() => {
     const withCoords = safeBooks.filter(b => getNormalizedCoordinates(b) !== null);
     const withoutCoords = safeBooks.filter(b => getNormalizedCoordinates(b) === null);
-    console.log(`🗺️ Knihy so súradnicami: ${withCoords.length}/${safeBooks.length}`);
+    console.log(`Knihy so súradnicami: ${withCoords.length}/${safeBooks.length}`);
     if (withoutCoords.length > 0) {
-      console.warn('❌ Knihy BEZ súradníc:', withoutCoords.map(b => `${b.title} (${JSON.stringify(b.coordinates)})`));
+      console.warn(' Knihy BEZ súradníc:', withoutCoords.map(b => `${b.title} (${JSON.stringify(b.coordinates)})`));
     }
   }, [safeBooks]);
 
   useEffect(() => {
     if (selectedLocation) {
-      console.log('📚 Počet kníh v selectedLocation:', selectedLocation.books.length);
+      console.log('Počet kníh v selectedLocation:', selectedLocation.books.length);
     }
   }, [selectedLocation]);
 
@@ -149,7 +149,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
       groups[key].books.push(book);
     });
     
-    console.log(`📍 Počet skupín na mape: ${Object.keys(groups).length}`);
+    console.log(`Počet skupín na mape: ${Object.keys(groups).length}`);
     return Object.values(groups);
   }, [safeBooks]);
 
@@ -308,7 +308,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
             </>
           ) : (
             <>
-              <h3 className="sidebar-title">📚 Všetky knihy</h3>
+              <h3 className="sidebar-title"> Všetky knihy</h3>
               <p className="sidebar-subtitle">
                 {safeBooks.length} {safeBooks.length === 1 ? 'kniha' : safeBooks.length < 5 ? 'knihy' : 'kníh'} celkom
               </p>
@@ -363,20 +363,20 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
                           disabled={isWishlistLoading}
                           className={`wishlist-toggle-btn ${isInWishlist ? 'in-wishlist' : 'not-in-wishlist'}`}
                         >
-                          {isWishlistLoading ? '⏳' : (isInWishlist ? '⭐ V wishlist-e' : '☆ Pridať do wishlistu')}
+                          {isWishlistLoading ? '⏳' : (isInWishlist ? 'Vo wishlist-e' : 'Pridať do wishlistu')}
                         </button>
                       </>
                     )}
                     
                     {isRead && (
                       <div className="read-badge">
-                        ✨ Už ste navštívili toto miesto cez knihu!
+                         Už ste navštívili toto miesto cez knihu!
                       </div>
                     )}
                     
                     {isInWishlist && !isRead && (
                       <div className="wishlist-badge">
-                        ⭐ V zozname želaní
+                         V zozname želaní
                       </div>
                     )}
                   </div>
