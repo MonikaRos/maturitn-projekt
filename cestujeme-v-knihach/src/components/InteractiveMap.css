@@ -1,6 +1,5 @@
 /* src/components/InteractiveMap.css */
 
-/* Hlavný kontajner - FIXED layout */
 .map-container-wrapper {
   display: flex;
   gap: 20px;
@@ -9,7 +8,6 @@
   position: relative;
 }
 
-/* Mapa - ľavá strana */
 .map-section {
   flex: 1 1 75%;
   min-width: 0;
@@ -19,131 +17,94 @@
 }
 
 .map-wrapper {
-  height: 600px; /* FIXNÁ VÝŠKA */
+  height: 600px;
   width: 100%;
   position: relative;
   border-radius: 12px;
   margin-bottom: 1rem;
-  flex-shrink: 0; /* Nebude sa zmenšovať */
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Leaflet kontajner - zabráň scrollovaniu von */
 .map-wrapper .leaflet-container {
-  height: 600px !important; /* FIXNÁ VÝŠKA */
+  height: 600px !important;
   width: 100% !important;
   border-radius: 12px;
   position: relative !important;
   z-index: 1;
 }
 
-/* Vypni scroll wheel zoom na mape ak chceš (voliteľné) */
 .map-wrapper .leaflet-container.leaflet-touch-drag {
   -ms-touch-action: pan-x pan-y;
   touch-action: pan-x pan-y;
 }
 
-/* Legenda pod mapou */
-.map-legend {
-  background: white;
-  border: 2px solid #bfdbfe;
-  border-radius: 8px;
-  padding: 1rem;
-  flex-shrink: 0;
-  max-height: 80px;
-  overflow: hidden;
-}
-
-.map-legend h4 {
-  margin: 0 0 0.5rem 0;
-  color: #1a365d;
-  font-size: 0.9rem;
-}
-
-.legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-right: 1rem;
-  margin-bottom: 0.3rem;
-  font-size: 0.85rem;
-  color: #64748b;
-}
-
-.legend-stats {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid #bfdbfe;
-  color: #1a365d;
-  font-size: 0.85rem;
-}
-
-/* Sidebar - pravá strana */
+/* Sidebar */
 .sidebar {
-  flex: 0 0 350px; /* FIXNÁ ŠÍRKA */
-  width: 350px;
-  height: 700px; /* FIXNÁ VÝŠKA */
+  flex: 0 0 300px;
+  width: 300px;
+  height: 700px;
   max-height: 700px;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #dbeafe;
-  padding: 20px;
+  background-color: #6281b7;
+  padding: 16px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(26, 54, 93, 0.1);
   position: relative;
 }
 
-/* Custom scrollbar pre sidebar */
 .sidebar::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: #dbeafe;
-  border-radius: 4px;
+  background: #6281b7;
+  border-radius: 3px;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: #2563eb;
-  border-radius: 4px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 3px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: #1d4ed8;
+  background: rgba(255,255,255,0.4);
 }
 
-/* Header sidebaru - sticky */
 .sidebar-header {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   position: sticky;
   top: 0;
-  background-color: #dbeafe;
+  background-color: #6281b7;
   padding-bottom: 10px;
   z-index: 10;
-  border-bottom: 2px solid #bfdbfe;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .sidebar-title {
-  margin: 0 0 8px 0;
-  font-size: 1.1rem;
-  color: #1a365d;
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+  color: white;
+  font-weight: 600;
 }
 
 .sidebar-subtitle {
-  color: #1a365d;
-  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
   margin: 0 0 10px 0;
 }
 
 .show-all-button {
   width: 100%;
-  padding: 10px 12px;
-  background-color: #2563eb;
-  color: white;
+  padding: 8px 12px;
+  background-color: #bec0de;
+  color: #272856;
   border: none;
   border-radius: 6px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
   position: sticky;
   bottom: 0;
   z-index: 15;
@@ -151,188 +112,160 @@
 }
 
 .show-all-button:hover {
-  background-color: #1d4ed8;
+  background-color: #6281b7;
 }
 
-/* Zoznam kníh */
 .books-list {
   padding-bottom: 20px;
   overflow-y: auto;
   max-height: calc(100% - 150px);
 }
 
-/* Karta knihy */
+/* Karta knihy v sidebari */
 .book-card-sidebar {
-  background-color: white;
-  padding: 15px;
+  background-color: #bec0de;
+  padding: 12px;
   border-radius: 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
-  border: 1px solid #bfdbfe;
-  transition: all 0.3s;
+  margin-bottom: 10px;
+  border: 1px solid rgba(39, 40, 86, 0.15);
+  transition: all 0.2s;
   cursor: pointer;
 }
 
 .book-card-sidebar:hover {
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-  transform: translateY(-2px);
-  border-color: #2563eb;
+  background-color: #bec0de;
+  border-color: rgba(39, 40, 86, 0.35);
+  transform: translateY(-1px);
 }
 
 .book-card-sidebar.read {
-  background-color: #dbeafe;
-  border-color: #3b82f6;
+  background-color: #bec0de;
+  border-color: rgba(39, 40, 86, 0.35);
 }
 
 .book-card-title {
-  margin: 0 0 8px 0;
-  color: #1a365d;
-  font-size: 16px;
+  margin: 0 0 6px 0;
+  color: #272856;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .book-card-author {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #64748b;
+  margin: 3px 0;
+  font-size: 12px;
+  color: rgba(39, 40, 86, 0.6);
 }
 
 .book-card-location {
-  margin: 6px 0 0 0;
-  font-size: 13px;
-  color: #2563eb;
+  margin: 5px 0 0 0;
+  font-size: 12px;
+  color: #272856;
   font-weight: 500;
 }
 
 .book-card-hint {
-  margin: 8px 0 0 0;
-  font-size: 12px;
-  color: #999;
+  margin: 6px 0 0 0;
+  font-size: 11px;
+  color: rgba(39, 40, 86, 0.5);
   font-style: italic;
 }
 
-/* Detail knihy - keď je vybraná lokácia */
 .book-detail-compact {
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid #bfdbfe;
+  border-top: 1px solid rgba(39, 40, 86, 0.15);
 }
 
 .book-detail-info {
-  margin: 4px 0;
-  font-size: 13px;
-  color: #64748b;
+  margin: 3px 0;
+  font-size: 12px;
+  color: rgba(39, 40, 86, 0.6);
 }
 
 .book-description {
-  margin: 10px 0;
-  font-size: 13px;
-  color: #1a365d;
+  margin: 8px 0;
+  font-size: 12px;
+  color: rgba(39, 40, 86, 0.75);
   line-height: 1.4;
 }
 
-/* Tlačidlo prečítané */
+/* Tlačidlá */
 .read-toggle-btn {
   width: 100%;
-  padding: 8px;
+  padding: 7px;
   border: none;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  margin-top: 10px;
-  color: white;
+  margin-top: 8px;
+  color: #272856;
 }
 
 .read-toggle-btn.unread {
-  background-color: #2563eb;
+  background-color: #bec0de;
 }
 
 .read-toggle-btn.read {
-  background-color: #3b82f6;
+  background-color: #6281b7;
 }
 
 .read-toggle-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .read-toggle-btn:not(:disabled):hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* Tlačidlo wishlist */
 .wishlist-toggle-btn {
   width: 100%;
-  padding: 8px;
+  padding: 7px;
   border: none;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  margin-top: 8px;
-  color: white;
+  margin-top: 6px;
+  color: #272856;
 }
 
 .wishlist-toggle-btn.not-in-wishlist {
-  background-color: #f97316;
+  background-color: #bec0de;
 }
 
 .wishlist-toggle-btn.in-wishlist {
-  background-color: #ea580c;
+  background-color: #6281b7;
 }
 
 .wishlist-toggle-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .wishlist-toggle-btn:not(:disabled):hover {
-  opacity: 0.8;
-  transform: scale(1.02);
+  opacity: 0.85;
 }
 
-/* Badge prečítané */
 .read-badge {
   margin-top: 8px;
-  padding: 6px;
-  background-color: #dbeafe;
-  border: 1px solid #3b82f6;
+  padding: 5px;
+  background-color: rgba(45,106,74,0.3);
+  border: 1px solid rgba(56,161,105,0.4);
   border-radius: 6px;
   font-size: 11px;
-  color: #1a365d;
+  color: #9ae6b4;
   text-align: center;
-}
-
-/* Legenda farebných guličiek */
-.legend-color-dot {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-.legend-color-dot.red {
-  background-color: #dc2626;
-}
-
-.legend-color-dot.orange {
-  background-color: #f97316;
-}
-
-.legend-color-dot.blue {
-  background-color: #2563eb;
 }
 
 /* RESPONSIVE */
 @media (max-width: 1200px) {
   .sidebar {
-    flex: 0 0 300px;
-    width: 300px;
+    flex: 0 0 260px;
+    width: 260px;
   }
 }
 
@@ -342,29 +275,23 @@
     max-height: none;
     gap: 15px;
   }
-  
   .map-section {
     width: 100%;
     max-height: none;
   }
-  
   .map-wrapper {
     height: 500px;
   }
-  
   .map-wrapper .leaflet-container {
     height: 500px !important;
   }
-  
   .sidebar {
     width: 100%;
     height: 400px;
     max-height: 400px;
   }
-  
   .sidebar-header {
     position: relative;
-    top: 0;
   }
 }
 
@@ -372,13 +299,11 @@
   .map-wrapper {
     height: 400px;
   }
-  
   .map-wrapper .leaflet-container {
     height: 400px !important;
   }
-  
   .sidebar {
-    padding: 15px;
+    padding: 12px;
     height: 350px;
     max-height: 350px;
   }
@@ -388,17 +313,11 @@
   .map-wrapper {
     height: 350px;
   }
-  
   .map-wrapper .leaflet-container {
     height: 350px !important;
   }
-  
   .sidebar {
     height: 300px;
     max-height: 300px;
-  }
-  
-  .book-card-sidebar {
-    padding: 12px;
   }
 }

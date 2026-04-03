@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 
 const createClusterCustomIcon = (cluster) => {
   const count = cluster.getChildCount();
-  let color = count === 1 ? '#d73027' : count === 2 ? '#fc8d59' : '#4575b4';
+  let color = count === 1 ? '#272856' : count === 2 ? '#6281b7' : '#bec0de';
   
   return L.divIcon({
     html: `<div style="background-color: ${color}; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${count}</div>`,
@@ -29,7 +29,7 @@ const createClusterCustomIcon = (cluster) => {
 };
 
 const createBookIcon = (count) => {
-  let color = count === 1 ? '#d73027' : count === 2 ? '#fc8d59' : '#4575b4';
+  let color = count === 1 ? '#272856' : count === 2 ? '#6281b7' : '#bec0de';
   
   return new L.DivIcon({
     html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"><span style="font-size: 14px;">${count}</span></div>`,
@@ -291,25 +291,6 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
               ))}
             </MarkerClusterGroup>
           </MapContainer>
-        </div>
-          
-        <div className="map-legend">
-          <h4>Legenda:</h4>
-          <div className="legend-item">
-            <span className="legend-color-dot red"></span>
-            <span>1 kniha</span>
-          </div>
-          <div className="legend-item">
-            <span className="legend-color-dot orange"></span>
-            <span>2 knihy</span>
-          </div>
-          <div className="legend-item">
-            <span className="legend-color-dot blue"></span>
-            <span>3+ kníh</span>
-          </div>
-          <div className="legend-stats">
-            <strong>{safeBooks.length}</strong> kníh na <strong>{groupedBooks.length}</strong> miestach
-          </div>
         </div>
       </div>
 

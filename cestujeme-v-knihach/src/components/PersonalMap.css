@@ -1,12 +1,12 @@
 /* src/components/PersonalMap.css */
 
 .personal-map-container {
-  background: white;
+  background: #272856;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(26, 54, 93, 0.1);
+  box-shadow: none;
   margin-bottom: 2rem;
-  border: 2px solid #bfdbfe;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .personal-map-header {
@@ -16,14 +16,15 @@
 
 .personal-map-header h3 {
   margin: 0 0 0.5rem 0;
-  color: #1a365d;
-  font-size: 1.5rem;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .personal-map-header p {
   margin: 0;
-  color: #64748b;
-  font-size: 0.95rem;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
 }
 
 .personal-map-wrapper {
@@ -32,7 +33,7 @@
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 1.5rem;
-  border: 2px solid #bfdbfe;
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 .personal-map-stats {
@@ -47,13 +48,13 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  background: #bec0de;
   border-radius: 12px;
-  color: white;
+  color: #272856;
 }
 
 .stat-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .stat-number {
@@ -63,15 +64,15 @@
 }
 
 .stat-label {
-  font-size: 0.85rem;
-  opacity: 0.9;
+  font-size: 0.82rem;
+  opacity: 0.85;
   margin-top: 0.3rem;
 }
 
 /* Prázdny stav */
 .personal-map-empty {
-  background: linear-gradient(135deg, #dbeafe 0%, #e0f7ff 100%);
-  border: 2px dashed #bfdbfe;
+  background: #6281b7;
+  border: 2px dashed rgba(255,255,255,0.15);
   border-radius: 12px;
   padding: 3rem;
   text-align: center;
@@ -84,35 +85,35 @@
 }
 
 .personal-map-empty h3 {
-  color: #1a365d;
+  color: white;
   margin: 0 0 0.5rem 0;
 }
 
 .personal-map-empty p {
-  color: #1a365d;
+  color: rgba(255,255,255,0.6);
   margin: 0;
 }
 
-/* Popup styling */
+/* Popup */
 .personal-popup {
   min-width: 200px;
 }
 
 .personal-popup h4 {
   margin: 0 0 0.5rem 0;
-  color: #1a365d;
+  color: #272856;
   font-size: 1rem;
 }
 
 .popup-count {
   margin: 0 0 0.8rem 0;
-  color: #2563eb;
+  color: #272856;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .popup-books {
-  border-top: 1px solid #bfdbfe;
+  border-top: 1px solid #272856;
   padding-top: 0.8rem;
 }
 
@@ -123,11 +124,11 @@
 }
 
 .popup-book strong {
-  color: #1a365d;
+  color: #272856;
 }
 
 .popup-author {
-  color: #64748b;
+  color: #6281b7;
 }
 
 /* Markery */

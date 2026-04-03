@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
 // Zelená ikona pre prečítané knihy
 const createReadBookIcon = (count) => {
   return new L.DivIcon({
-    html: `<div style="background-color: #48bb78; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"><span style="font-size: 14px;">${count}</span></div>`,
+    html: `<div style="background-color: #6281b7; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"><span style="font-size: 14px;">${count}</span></div>`,
     className: 'personal-book-marker',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
@@ -27,9 +27,10 @@ const createReadBookIcon = (count) => {
 
 const createClusterIcon = (cluster) => {
   const count = cluster.getChildCount();
+  let color = count === 1 ? '#272856' : count === 2 ? '#6281b7' : '#bec0de';
   
   return L.divIcon({
-    html: `<div style="background-color: #48bb78; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${count}</div>`,
+    html: `<div style="background-color: ${color}; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${count}</div>`,
     className: 'personal-marker-cluster',
     iconSize: L.point(40, 40, true),
   });
