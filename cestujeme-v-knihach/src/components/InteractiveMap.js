@@ -1,4 +1,3 @@
-// src/components/InteractiveMap.js
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
@@ -17,6 +16,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+
+//klustrovanie markerov podla počtu kníh
 const createClusterCustomIcon = (cluster) => {
   const count = cluster.getChildCount();
   let color = count === 1 ? '#272856' : count === 2 ? '#6281b7' : '#bec0de';
@@ -107,7 +108,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
   const defaultZoom = 4;
   const safeBooks = useMemo(() => (Array.isArray(books) ? books : []), [books]);
 
-  // Debug: vypiš koľko kníh má platné súradnice
+  // zistenie či knihy majú súradnice
   useEffect(() => {
     const withCoords = safeBooks.filter(b => getNormalizedCoordinates(b) !== null);
     const withoutCoords = safeBooks.filter(b => getNormalizedCoordinates(b) === null);
@@ -129,7 +130,7 @@ function InteractiveMap({ books, user, onBookStatusChange, onWishlistChange }) {
     safeBooks.forEach(book => {
       const normalizedCoordinates = getNormalizedCoordinates(book);
       if (!normalizedCoordinates) {
-        return; // preskočí knihy bez platných súradníc
+        return; // knihy čo majú neplatné súradnice preskočí
       }
 
       const [latValue, lngValue] = normalizedCoordinates;

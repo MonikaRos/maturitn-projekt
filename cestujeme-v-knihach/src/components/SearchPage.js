@@ -1,22 +1,19 @@
-// src/components/SearchPage.js
 import React, { useState, useEffect } from 'react';
 import BookCard from './BookCard';
 
 function SearchPage({ books, user, onBookStatusChange, onWishlistChange }) {
-  // Stavy pre vyhľadávanie
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredBooks, setFilteredBooks] = useState(books);
   const [filterBy, setFilterBy] = useState('all');
   const [selectedGenre, setSelectedGenre] = useState('all');
 
-  // Získanie jedinečných žánrov zo všetkých kníh
+  
   const genres = [...new Set(books.map(book => book.genre))];
 
-  // Funkcia na filtrovanie kníh
   useEffect(() => {
     let filtered = books;
 
-    // Filter podľa žánru
     if (selectedGenre !== 'all') {
       filtered = filtered.filter(book => book.genre === selectedGenre);
     }
@@ -139,7 +136,7 @@ function SearchPage({ books, user, onBookStatusChange, onWishlistChange }) {
           )}
         </div>
 
-        {/* Zoznam výsledkov - POUŽÍVA BookCard! */}
+        {/* Zoznam výsledkov - používa BookCard! */}
         {filteredBooks.length > 0 ? (
           <div className="books-grid">
             {filteredBooks.map(book => (

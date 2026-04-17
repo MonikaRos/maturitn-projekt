@@ -1,7 +1,3 @@
-// src/components/SeedDatabaseButton.js
-// TENTO KOMPONENT POUŽI LEN RAZ NA NAPLNENIE DATABÁZY!
-// Potom ho môžeš vymazať alebo zakomentovať
-
 import React, { useState } from 'react';
 import { seedDatabase } from '../utils/seedDatabase';
 

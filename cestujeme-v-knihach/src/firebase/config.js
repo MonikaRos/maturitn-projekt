@@ -1,9 +1,6 @@
-
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-
-// Tu vlož svoje Firebase konfiguračné údaje z Firebase console
 
 const firebaseConfig = {
   apiKey: "AIzaSyAPF_O3l6zKzh_fENb5g61qqCj7qSpPYmg",
@@ -19,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Inicializácia služieb
-export const auth = getAuth(app); // Autentifikácia
-export const db = getFirestore(app); // Databáza
+export const auth = getAuth(app); 
+export const db = getFirestore(app);
 
 export default app;

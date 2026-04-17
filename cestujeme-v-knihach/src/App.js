@@ -7,7 +7,7 @@ import ProfilePage from './components/ProfilePage';
 import AdminPage from './components/AdminPage';
 import LeaderboardPage from './components/LeaderboardPage';
 import LoginForm from './components/LoginForm';
-import SeedDatabaseButton from './components/SeedDatabaseButton'; // SEED BUTTON
+import SeedDatabaseButton from './components/SeedDatabaseButton'; 
 import { onAuthChange, logoutUser } from './firebase/auth';
 import { getAllBooks } from './firebase/firestore';
 import './styles/App.css';

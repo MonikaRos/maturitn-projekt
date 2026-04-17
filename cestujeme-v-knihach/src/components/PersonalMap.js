@@ -1,4 +1,3 @@
-// src/components/PersonalMap.js
 import React, { useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';

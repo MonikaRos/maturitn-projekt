@@ -1,4 +1,3 @@
-// src/components/ProfilePage.js
 import React from 'react';
 import BookCard from './BookCard';
 import PersonalMap from './PersonalMap';

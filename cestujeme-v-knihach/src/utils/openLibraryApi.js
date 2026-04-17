@@ -1,10 +1,3 @@
-// src/utils/openLibraryApi.js
-
-/**
- * OpenLibrary API helper funkcie
- * Dokumentácia: https://openlibrary.org/developers/api
- */
-
 const BASE_URL = 'https://openlibrary.org';
 const COVERS_URL = 'https://covers.openlibrary.org/b';
 
@@ -16,7 +9,7 @@ const COVERS_URL = 'https://covers.openlibrary.org/b';
  */
 export const searchBooks = async (query, searchType = 'all', language = 'all') => {
   try {
-    console.log('📚 Vyhľadávam knihy:', { query, searchType, language });
+    console.log('Vyhľadávam knihy:', { query, searchType, language });
     
     if (!query || query.length < 2) {
       return {
@@ -39,7 +32,7 @@ export const searchBooks = async (query, searchType = 'all', language = 'all') =
     // OpenLibrary Search API
     let url = `${BASE_URL}/search.json?q=${searchQuery}&limit=20`;
     
-    // Pridaj filter jazyka
+    //filter jazyka
     if (language !== 'all') {
       url += `&language=${language}`;
     }
@@ -75,7 +68,7 @@ export const searchBooks = async (query, searchType = 'all', language = 'all') =
       description: doc.first_sentence ? doc.first_sentence[0] : ''
     }));
 
-    console.log(`✅ Našlo sa ${books.length} kníh`);
+    console.log(`Našlo sa ${books.length} kníh`);
     
     return {
       success: true,
@@ -83,7 +76,7 @@ export const searchBooks = async (query, searchType = 'all', language = 'all') =
     };
     
   } catch (error) {
-    console.error('❌ Chyba pri vyhľadávaní kníh:', error);
+    console.error('Chyba pri vyhľadávaní kníh:', error);
     return {
       success: false,
       books: [],
@@ -92,24 +85,19 @@ export const searchBooks = async (query, searchType = 'all', language = 'all') =
   }
 };
 
-/**
- * Získa URL obrázka obálky knihy
- */
 export const getCoverUrl = (coverId, size = 'M') => {
   if (!coverId) {
     return 'https://via.placeholder.com/200x300?text=Bez+obálky';
   }
   
-  // size: S (small), M (medium), L (large)
+  
   return `${COVERS_URL}/id/${coverId}-${size}.jpg`;
 };
 
-/**
- * Získa detailné informácie o knihe
- */
+
 export const getBookDetails = async (bookKey) => {
   try {
-    console.log('📖 Načítavam detail knihy:', bookKey);
+    console.log(' Načítavam detail knihy:', bookKey);
     
     const url = `${BASE_URL}${bookKey}.json`;
     const response = await fetch(url);
@@ -120,7 +108,7 @@ export const getBookDetails = async (bookKey) => {
     
     const data = await response.json();
     
-    // Spracuj popis
+    
     let description = '';
     if (data.description) {
       if (typeof data.description === 'string') {
@@ -130,7 +118,7 @@ export const getBookDetails = async (bookKey) => {
       }
     }
 
-    console.log('✅ Detail knihy načítaný');
+    console.log(' Detail knihy načítaný');
     
     return {
       success: true,
@@ -143,7 +131,7 @@ export const getBookDetails = async (bookKey) => {
     };
     
   } catch (error) {
-    console.error('❌ Chyba pri načítaní detailu:', error);
+    console.error(' Chyba pri načítaní detailu:', error);
     return {
       success: false,
       message: error.message
@@ -151,12 +139,10 @@ export const getBookDetails = async (bookKey) => {
   }
 };
 
-/**
- * Vyhľadá knihy podľa ISBN
- */
+
 export const searchByISBN = async (isbn) => {
   try {
-    console.log('📚 Vyhľadávam knihu podľa ISBN:', isbn);
+    console.log(' Vyhľadávam knihu podľa ISBN:', isbn);
     
     const url = `${BASE_URL}/isbn/${isbn}.json`;
     const response = await fetch(url);
@@ -170,7 +156,7 @@ export const searchByISBN = async (isbn) => {
     
     const data = await response.json();
     
-    console.log('✅ Kniha nájdená');
+    console.log(' Kniha nájdená');
     
     return {
       success: true,
@@ -185,7 +171,7 @@ export const searchByISBN = async (isbn) => {
     };
     
   } catch (error) {
-    console.error('❌ Chyba pri vyhľadávaní ISBN:', error);
+    console.error(' Chyba pri vyhľadávaní ISBN:', error);
     return {
       success: false,
       message: error.message
@@ -193,9 +179,7 @@ export const searchByISBN = async (isbn) => {
   }
 };
 
-/**
- * Formátuje zoznam autorov
- */
+
 export const formatAuthors = (authors) => {
   if (!authors || authors.length === 0) {
     return 'Neznámy autor';
@@ -215,15 +199,12 @@ export const formatAuthors = (authors) => {
   return `${others} a ${last}`;
 };
 
-/**
- * Extrahovanie žánru z tém (subjects)
- * Inteligentná detekcia so slovenským a anglickým mapovaním
- */
+
 export const extractGenre = (subjects) => {
-  console.log('🔍 Extrahujem žáner z subjects:', subjects);
+  console.log(' Extrahujem žáner z subjects:', subjects);
   
   if (!subjects || subjects.length === 0) {
-    console.log('⚠️ Žiadne subjects, vraciám Beletria');
+    console.log(' Žiadne subjects, vraciám Beletria');
     return 'Beletria';
   }
   
@@ -328,33 +309,28 @@ export const extractGenre = (subjects) => {
   // Hľadaj prvý známy žáner (case-insensitive)
   for (const subject of subjects) {
     const subjectLower = subject.toLowerCase().trim();
-    console.log('  Kontrolujem subject:', subjectLower);
+    console.log('Kontrolujem subject:', subjectLower);
     
     for (const [key, value] of Object.entries(genreMap)) {
       if (subjectLower.includes(key)) {
-        console.log(`  ✅ Našiel som zhodu: "${key}" → "${value}"`);
+        console.log(`Našiel som zhodu: "${key}" → "${value}"`);
         return value;
       }
     }
   }
   
-  console.log('  ⚠️ Nenašiel som zhodu, vraciám prvý subject:', subjects[0]);
+  console.log('Nenašiel som zhodu, vraciám prvý subject:', subjects[0]);
   
-  // Ak sa nenájde špecifický žáner, vráť prvý subject alebo Beletria
   const firstSubject = subjects[0];
   
-  // Ak prvý subject obsahuje "fiction", vráť Beletria
   if (firstSubject.toLowerCase().includes('fiction')) {
     return 'Beletria';
   }
   
-  // Inak vráť prvý subject (môže byť špecifický, napr. "English literature")
   return firstSubject;
 };
 
-/**
- * Zoznam dostupných žánrov pre dropdown
- */
+
 export const getAvailableGenres = () => {
   return [
     'Beletria',
@@ -386,9 +362,6 @@ export const getAvailableGenres = () => {
   ];
 };
 
-/**
- * Získaj lokalizované názvy jazykov
- */
 export const getLanguageName = (code) => {
   const languages = {
     'slo': '🇸🇰 Slovenčina',

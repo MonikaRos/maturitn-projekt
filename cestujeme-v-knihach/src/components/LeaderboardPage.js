@@ -1,4 +1,3 @@
-// src/components/LeaderboardPage.js
 import React, { useMemo, useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -24,7 +23,7 @@ function LeaderboardPage({ books, user }) {
         usersSnapshot.forEach(doc => {
           users.push({ id: doc.id, ...doc.data() });
         });
-        console.log('👥 Načítaní používatelia:', users.length);
+        console.log(' Načítaní používatelia:', users.length);
         users.forEach(u => {
           console.log(`  ${u.displayName}: readBooks =`, u.readBooks);
         });
@@ -41,8 +40,7 @@ function LeaderboardPage({ books, user }) {
   const stats = useMemo(() => {
     if (!books || books.length === 0 || isLoadingUsers) return null;
 
-    // Kľúč je vždy číslo (Number) – normalizuj obe strany
-    // book.id je číslo, readBooks môže obsahovať čísla alebo stringy
+    
     const bookReadCounts = {};
     books.forEach(book => {
       bookReadCounts[Number(book.id)] = 0;

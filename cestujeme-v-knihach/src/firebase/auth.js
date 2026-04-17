@@ -1,4 +1,3 @@
-// src/firebase/auth.js
 import { 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -31,7 +30,7 @@ export const registerUser = async (email, password, displayName) => {
         email: user.email,
         displayName: displayName,
         readBooks: [],
-        wishlist: [] // PRIDANÉ
+        wishlist: [] 
       }
     };
   } catch (error) {
@@ -102,7 +101,7 @@ export const onAuthChange = (callback) => {
         email: user.email,
         displayName: user.displayName || 'Používateľ',
         readBooks: userData.success ? (userData.data.readBooks || []) : [],
-        wishlist: userData.success ? (userData.data.wishlist || []) : [], // PRIDANÉ
+        wishlist: userData.success ? (userData.data.wishlist || []) : [], 
         isAdmin: userData.success ? (userData.data.isAdmin || false) : false
       });
     } else {

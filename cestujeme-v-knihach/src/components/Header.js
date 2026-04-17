@@ -1,11 +1,10 @@
-// src/components/Header.js
 import React, { useEffect } from 'react';
 
 function Header({ currentPage, setCurrentPage, user, handleLogin, handleLogout }) {
   useEffect(() => {
     if (user) {
-      console.log('👤 Header dostal používateľa:', user.displayName);
-      console.log('🔑 isAdmin v Header:', user.isAdmin);
+      console.log(' Header dostal používateľa:', user.displayName);
+      console.log(' isAdmin v Header:', user.isAdmin);
     }
   }, [user]);
 

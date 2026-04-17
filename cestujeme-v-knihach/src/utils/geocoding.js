@@ -1,16 +1,15 @@
-
 export const getCoordinates = async (city, country) => {
   try {
-    console.log(`🌍 Hľadám súradnice pre: ${city}, ${country}`);
+    console.log(`Hľadám súradnice pre: ${city}, ${country}`);
     
-    // Nominatim API - zadarmo od OpenStreetMap
+    
     
     const query = encodeURIComponent(`${city}, ${country}`);
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
     
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'CestujemeVKnihach/1.0' // Povinné pre Nominatim API
+        'User-Agent': 'CestujemeVKnihach/1.0' // n to aby nominatim fungoval
       }
     });
     
@@ -21,8 +20,8 @@ export const getCoordinates = async (city, country) => {
     const data = await response.json();
     
     if (data.length === 0) {
-      console.warn('⚠️ Nenašli sa súradnice, použijem predvolené');
-      // Predvolené súradnice (stred Európy)
+      console.warn(' Nenašli sa súradnice, použijem predvolené');
+      // ak sa nenájdu súradnice dajú sa tieto (stred europy)
       return {
         success: false,
         coordinates: [50.0, 10.0],
@@ -33,18 +32,18 @@ export const getCoordinates = async (city, country) => {
     const location = data[0];
     const coordinates = [parseFloat(location.lat), parseFloat(location.lon)];
     
-    console.log(`✅ Súradnice nájdené:`, coordinates);
+    console.log(`Súradnice nájdené:`, coordinates);
     
     return {
       success: true,
       coordinates: coordinates,
-      displayName: location.display_name // Celý názov miesta
+      displayName: location.display_name 
     };
     
   } catch (error) {
-    console.error('❌ Chyba pri získavaní súradníc:', error);
+    console.error(' Chyba pri získavaní súradníc:', error);
     
-    // V prípade chyby vrátime predvolené súradnice
+    
     return {
       success: false,
       coordinates: [50.0, 10.0],
@@ -53,9 +52,6 @@ export const getCoordinates = async (city, country) => {
   }
 };
 
-/**
- * Validuje či súradnice vyzerajú správne
- */
 export const validateCoordinates = (coordinates) => {
   if (!Array.isArray(coordinates) || coordinates.length !== 2) {
     return false;
@@ -73,9 +69,6 @@ export const validateCoordinates = (coordinates) => {
   );
 };
 
-/**
- * Formátuje súradnice na pekný reťazec
- */
 export const formatCoordinates = (coordinates) => {
   if (!validateCoordinates(coordinates)) {
     return 'Neznáme súradnice';

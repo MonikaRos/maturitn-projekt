@@ -1,6 +1,3 @@
-// src/utils/seedDatabase.js
-// TENTO SCRIPT SPUSTI LEN RAZ aby si naplnila databázu testovacími dátami
-
 import { db, auth } from '../firebase/config';
 import { collection, doc, setDoc, getDocs, deleteDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -702,10 +699,10 @@ export const seedDatabase = async () => {
     const deletePromises = [];
     booksSnapshot.forEach(docSnapshot => deletePromises.push(deleteDoc(docSnapshot.ref)));
     await Promise.all(deletePromises);
-    console.log(`✅ Zmazaných ${booksSnapshot.size} kníh`);
+    console.log(` Zmazaných ${booksSnapshot.size} kníh`);
 
     // 1. PRIDAJ KNIHY — všetky súradnice sú hardcoded, žiadne API volanie
-    console.log('📚 Pridávam nové knihy...');
+    console.log(' Pridávam nové knihy...');
     let added = 0;
 
     for (let index = 0; index < SEED_BOOKS.length; index++) {
@@ -715,7 +712,7 @@ export const seedDatabase = async () => {
       const coordinates = BOOK_COORDINATES[book.city];
 
       if (!coordinates) {
-        console.error(`❌ CHÝBAJÚ súradnice pre mesto: "${book.city}" (${book.title})`);
+        console.error(` CHÝBAJÚ súradnice pre mesto: "${book.city}" (${book.title})`);
         continue;
       }
 
@@ -737,14 +734,14 @@ export const seedDatabase = async () => {
         updatedAt: new Date()
       });
 
-      console.log(`✅ ${bookId}/${SEED_BOOKS.length}: ${book.title} → [${coordinates[0]}, ${coordinates[1]}]`);
+      console.log(` ${bookId}/${SEED_BOOKS.length}: ${book.title} → [${coordinates[0]}, ${coordinates[1]}]`);
       added++;
     }
 
-    console.log(`✅ Pridaných ${added} kníh!`);
+    console.log(` Pridaných ${added} kníh!`);
 
     // 2. VYTVOR POUŽÍVATEĽOV
-    console.log('👥 Vytváram používateľov...');
+    console.log(' Vytváram používateľov...');
 
     for (const userData of SEED_USERS) {
       try {
@@ -759,22 +756,22 @@ export const seedDatabase = async () => {
           createdAt: new Date(),
           updatedAt: new Date()
         });
-        console.log(`✅ ${userData.displayName} (${userData.readBooksIds.length} kníh)`);
+        console.log(` ${userData.displayName} (${userData.readBooksIds.length} kníh)`);
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
-          console.log(`⚠️ ${userData.email} už existuje, preskakujem...`);
+          console.log(` ${userData.email} už existuje, preskakujem...`);
         } else {
-          console.error(`❌ Chyba: ${userData.email}:`, error);
+          console.error(` Chyba: ${userData.email}:`, error);
         }
       }
     }
 
-    console.log('🎉 Hotovo!');
-    alert(`✅ Pridaných ${added} kníh a ${SEED_USERS.length} používateľov. Obnovte stránku (F5).`);
+    console.log(' Hotovo!');
+    alert(` Pridaných ${added} kníh a ${SEED_USERS.length} používateľov. Obnovte stránku (F5).`);
     return { success: true };
 
   } catch (error) {
-    console.error('❌ Chyba:', error);
+    console.error(' Chyba:', error);
     return { success: false, error };
   }
 };
@@ -786,10 +783,10 @@ export const clearSeedData = async () => {
     const deletePromises = [];
     booksSnapshot.forEach(d => deletePromises.push(deleteDoc(d.ref)));
     await Promise.all(deletePromises);
-    console.log('✅ Všetky knihy zmazané');
+    console.log(' Všetky knihy zmazané');
     return { success: true };
   } catch (error) {
-    console.error('❌ Chyba:', error);
+    console.error(' Chyba:', error);
     return { success: false, error };
   }
 };

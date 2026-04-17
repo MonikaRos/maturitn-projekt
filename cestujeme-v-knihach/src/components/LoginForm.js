@@ -1,23 +1,20 @@
-// src/components/LoginForm.js
 import React, { useState } from 'react';
 import { loginUser, registerUser } from '../firebase/auth';
 
 function LoginForm({ onClose, onLoginSuccess }) {
-  // Stavy formulára
-  const [isLogin, setIsLogin] = useState(true); // true = prihlásenie, false = registrácia
+  const [isLogin, setIsLogin] = useState(true); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Funkcia na odoslanie formulára
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    // Validácia
     if (!email || !password) {
       setError('Vyplňte všetky polia');
       setLoading(false);
@@ -51,15 +48,15 @@ function LoginForm({ onClose, onLoginSuccess }) {
         console.log(' Prihlásenie/Registrácia úspešná, používateľ:', result.user);
         console.log(' isAdmin:', result.user.isAdmin);
         
-        // Zavolaj callback funkciu s úplnými dátami
+        
         onLoginSuccess(result.user);
         
-        // Počkaj trochu pred zatvorením (aby sa stihol update)
+        
         setTimeout(() => {
           onClose();
         }, 100);
       } else {
-        // Chyba
+        
         setError(result.error);
       }
     } catch (err) {
