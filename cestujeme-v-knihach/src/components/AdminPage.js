@@ -1,4 +1,3 @@
-// src/components/AdminPage.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { addBook, updateBook, deleteBook, getAllBooks } from '../firebase/firestore';
 import { getCoordinates, formatCoordinates } from '../utils/geocoding';
@@ -13,7 +12,7 @@ const getBookImage = (book) => {
 };
 
 function AdminPage({ user, onBooksChange }) {
-  // Stavy
+  
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -22,15 +21,13 @@ function AdminPage({ user, onBooksChange }) {
   const [isLoadingCoordinates, setIsLoadingCoordinates] = useState(false);
   const [foundCoordinates, setFoundCoordinates] = useState(null);
   
-  // Nové stavy pre OpenLibrary API
   const [showBookSearch, setShowBookSearch] = useState(false);
   const [bookSearchQuery, setBookSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchType, setSearchType] = useState('all'); // 'all', 'title', 'author'
-  const [searchLanguage, setSearchLanguage] = useState('all'); // 'all', 'slo', 'eng', 'ces'
+  const [searchType, setSearchType] = useState('all'); 
+  const [searchLanguage, setSearchLanguage] = useState('all'); 
 
-  // Formulárové polia
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -48,7 +45,7 @@ function AdminPage({ user, onBooksChange }) {
     const result = await getAllBooks();
     if (result.success) {
       setBooks(result.books);
-      // Informuj parent komponent len ak sa niečo zmenilo (pridalo/upravilo/zmazalo)
+      // Ak sa niečo upravilo upozorni parent component
       if (notifyParent && onBooksChange) {
         onBooksChange(result.books);
       }
@@ -56,9 +53,9 @@ function AdminPage({ user, onBooksChange }) {
     setIsLoading(false);
   }, [onBooksChange]);
 
-  // Načítanie všetkých kníh pri načítaní stránky
+  
   useEffect(() => {
-    loadBooks(false); // false = neinformuj parent, len načítaj
+    loadBooks(false); 
   }, [loadBooks]);
 
   // Automatické vyhľadanie súradníc keď admin zmení mesto alebo krajinu
@@ -109,7 +106,7 @@ function AdminPage({ user, onBooksChange }) {
       if (result.books.length === 0) {
         setMessage({ text: 'Žiadne knihy sa nenašli. Skúste iný dotaz alebo jazyk.', type: 'info' });
       } else {
-        setMessage({ text: `✅ Našlo sa ${result.books.length} kníh`, type: 'success' });
+        setMessage({ text: ` Našlo sa ${result.books.length} kníh`, type: 'success' });
       }
     } else {
       setMessage({ text: 'Chyba pri vyhľadávaní: ' + result.message, type: 'error' });
@@ -118,14 +115,14 @@ function AdminPage({ user, onBooksChange }) {
     setIsSearching(false);
   };
 
-  // Výber knihy z výsledkov vyhľadávania
+  
   const handleSelectBook = (book) => {
-    console.log('📖 Vybraná kniha:', book);
-    console.log('📚 Subjects:', book.subjects);
+    console.log('Vybraná kniha:', book);
+    console.log(' Subjects:', book.subjects);
     
-    // Inteligentná detekcia žánru
+    // datekcia žánru
     const detectedGenre = extractGenre(book.subjects);
-    console.log('🏷️ Detekovaný žáner:', detectedGenre);
+    console.log('Detekovaný žáner:', detectedGenre);
     
     setFormData(prev => ({
       ...prev,
@@ -141,7 +138,7 @@ function AdminPage({ user, onBooksChange }) {
     setBookSearchQuery('');
     setSearchResults([]);
     setMessage({ 
-      text: `✅ Informácie o knihe načítané. Žáner: ${detectedGenre}`, 
+      text: `Informácie o knihe načítané. Žáner: ${detectedGenre}`, 
       type: 'success' 
     });
   };
@@ -192,7 +189,7 @@ function AdminPage({ user, onBooksChange }) {
     if (result.success) {
       setMessage({ text: result.message, type: 'success' });
       resetForm();
-      await loadBooks(true); // true = informuj parent o zmene
+      await loadBooks(true); 
     } else {
       setMessage({ text: 'Chyba: ' + result.error, type: 'error' });
     }
@@ -200,7 +197,7 @@ function AdminPage({ user, onBooksChange }) {
     setIsLoading(false);
   };
 
-  // Začať úpravu knihy
+  // Úprava knihy
   const handleEdit = (book) => {
     setEditingBook(book);
     setFormData({
@@ -226,13 +223,13 @@ function AdminPage({ user, onBooksChange }) {
     const result = await deleteBook(bookId);
     if (result.success) {
       setMessage({ text: result.message, type: 'success' });
-      await loadBooks(true); // true = informuj parent o zmene
+      await loadBooks(true); 
     } else {
       setMessage({ text: 'Chyba: ' + result.error, type: 'error' });
     }
   };
 
-  // Resetovať formulár
+  
   const resetForm = () => {
     setFormData({
       title: '',
@@ -249,12 +246,12 @@ function AdminPage({ user, onBooksChange }) {
     setFoundCoordinates(null);
   };
 
-  // Ak používateľ nie je admin
+  // Ak sa chce používateľ prihlásiť ako admin ale nemá oprávnenia
   if (!user || !user.isAdmin) {
     return (
       <div className="admin-page">
         <div className="admin-access-denied">
-          <h2>🚫 Prístup zamietnutý</h2>
+          <h2> Prístup zamietnutý</h2>
           <p>Na túto stránku majú prístup len administrátori.</p>
         </div>
       </div>
@@ -264,7 +261,7 @@ function AdminPage({ user, onBooksChange }) {
   return (
     <div className="admin-page">
       <div className="admin-header">
-        <h1>👨‍💼 Admin Panel</h1>
+        <h1>Admin Panel</h1>
         <p>Spravujte knihy v aplikácii</p>
       </div>
 
@@ -277,14 +274,14 @@ function AdminPage({ user, onBooksChange }) {
 
       {!showForm && (
         <button className="admin-add-button" onClick={() => setShowForm(true)}>
-          ➕ Pridať novú knihu
+           Pridať novú knihu
         </button>
       )}
 
       {showForm && (
         <div className="admin-form-container">
           <div className="admin-form-header">
-            <h2>{editingBook ? '✏️ Upraviť knihu' : '➕ Pridať novú knihu'}</h2>
+            <h2>{editingBook ? ' Upraviť knihu' : ' Pridať novú knihu'}</h2>
             <button onClick={resetForm} className="admin-cancel-button">✕ Zrušiť</button>
           </div>
 
@@ -297,14 +294,14 @@ function AdminPage({ user, onBooksChange }) {
                   onClick={() => setShowBookSearch(true)}
                   className="search-api-button"
                 >
-                  🔍 Vyhľadať knihu v OpenLibrary API
+                  Vyhľadať knihu v OpenLibrary API
                 </button>
                 <p className="helper-text">alebo vyplňte údaje manuálne:</p>
               </div>
             ) : (
               <div className="book-search-container">
                 <div className="search-header">
-                  <h3>🔍 Vyhľadávanie v OpenLibrary</h3>
+                  <h3> Vyhľadávanie v OpenLibrary</h3>
                   <button 
                     type="button"
                     onClick={() => {
@@ -391,16 +388,16 @@ function AdminPage({ user, onBooksChange }) {
                           )}
                           <div className="result-info">
                             <h4>{book.title}</h4>
-                            <p className="result-author">✍️ {formatAuthors(book.authors)}</p>
+                            <p className="result-author"> {formatAuthors(book.authors)}</p>
                             {book.firstPublishYear && (
-                              <p className="result-year">📅 {book.firstPublishYear}</p>
+                              <p className="result-year"> {book.firstPublishYear}</p>
                             )}
                             {book.language && book.language !== 'unknown' && (
                               <p className="result-language">{getLanguageName(book.language)}</p>
                             )}
                             {book.subjects && book.subjects.length > 0 && (
                               <p className="result-subjects">
-                                🏷️ {extractGenre(book.subjects)}
+                                 {extractGenre(book.subjects)}
                               </p>
                             )}
                           </div>
@@ -466,7 +463,7 @@ function AdminPage({ user, onBooksChange }) {
 
             {isLoadingCoordinates && (
               <div className="coordinates-info loading">
-                🔍 Hľadám súradnice...
+                Hľadám súradnice...
               </div>
             )}
             
@@ -480,7 +477,7 @@ function AdminPage({ user, onBooksChange }) {
                     )}
                   </>
                 ) : (
-                  <>⚠️ {foundCoordinates.message}</>
+                  <> {foundCoordinates.message}</>
                 )}
               </div>
             )}
@@ -536,14 +533,14 @@ function AdminPage({ user, onBooksChange }) {
             </div>
 
             <button type="submit" className="admin-submit-button" disabled={isLoading}>
-              {isLoading ? '⏳ Ukladám...' : (editingBook ? '💾 Uložiť zmeny' : '➕ Pridať knihu')}
+              {isLoading ? ' Ukladám...' : (editingBook ? ' Uložiť zmeny' : 'Pridať knihu')}
             </button>
           </form>
         </div>
       )}
 
       <div className="admin-books-list">
-        <h2>📚 Všetky knihy ({books.length})</h2>
+        <h2>Všetky knihy ({books.length})</h2>
         
         {isLoading ? (
           <div className="admin-loading">Načítavam knihy...</div>
@@ -571,10 +568,10 @@ function AdminPage({ user, onBooksChange }) {
                 </div>
                 <div className="admin-book-actions">
                   <button onClick={() => handleEdit(book)} className="edit-btn">
-                    ✏️ Upraviť
+                     Upraviť
                   </button>
                   <button onClick={() => handleDelete(book.id)} className="delete-btn">
-                    🗑️ Zmazať
+                     Zmazať
                   </button>
                 </div>
               </div>

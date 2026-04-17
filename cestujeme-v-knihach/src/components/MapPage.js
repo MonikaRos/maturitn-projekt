@@ -1,4 +1,3 @@
-// src/components/MapPage.js
 import React from 'react';
 import InteractiveMap from './InteractiveMap';
 
@@ -11,7 +10,7 @@ function MapPage({ books, user, onBookStatusChange, onWishlistChange }) {
       </div>
 
       <div className="map-content">
-        {/* Všetka logika je v InteractiveMap */}
+        {/* Všetka potrebná logika je v InteractiveMap aby to bolo prehľadné tu iba kompletujeme */}
         <InteractiveMap 
           books={books} 
           user={user}
