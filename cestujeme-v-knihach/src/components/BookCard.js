@@ -1,4 +1,3 @@
-// src/components/BookCard.js
 import React, { useState } from 'react';
 import { toggleBookReadStatus, toggleWishlist } from '../firebase/firestore';
 
@@ -9,7 +8,7 @@ function BookCard({ book, user, isRead, isInWishlist, onStatusChange, onWishlist
   const fallbackImage = `https://dummyimage.com/200x300/f4efe6/2e2e2e&text=${encodeURIComponent(book?.title || 'Kniha')}`;
   const bookImage = book?.cover || book?.image || fallbackImage;
 
-  // Funkcia na označenie/odznačenie knihy ako prečítanú
+  // Funkcia na označenie/odznačenie knihy ako prečítanej
   const handleToggleRead = async (e) => {
     e.stopPropagation();
     
@@ -107,7 +106,7 @@ function BookCard({ book, user, isRead, isInWishlist, onStatusChange, onWishlist
           <p className="book-description">{book.description}</p>
           {isRead && (
             <div className="read-badge">
-              <span>✨ Už ste navštívili toto miesto cez knihu!</span>
+              <span> Už ste navštívili toto miesto cez knihu!</span>
             </div>
           )}
           {isInWishlist && !isRead && (
